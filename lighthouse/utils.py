@@ -28,7 +28,9 @@ def extract_file_name_with_source(file: str, source: str) -> str:
     return base + file.split(base)[-1]
 
 
-def read_files_for_upload(files: t.FileDict) -> List[Tuple[BufferedReader]]:
+def read_files_for_upload(
+    files: t.FileDict,
+) -> List[Tuple[str, Tuple[str, BufferedReader, str]]]:
     file_list = []
     for file in files["files"]:
         if files["is_dir"]:
@@ -54,3 +56,10 @@ def read_files_for_upload(files: t.FileDict) -> List[Tuple[BufferedReader]]:
                 ),
             )
     return file_list
+
+
+def close_files_after_upload(
+    files: List[Tuple[str, Tuple[str, BufferedReader, str]]]
+) -> None:
+    for file in files:
+        file[1][1].close()

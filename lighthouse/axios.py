@@ -49,9 +49,11 @@ class Axios:
             files = utils.read_files_for_upload(file)
             r = req.post(self.url, headers=headers, files=files)
             r.raise_for_status()
+            utils.close_files_after_upload(files)
             try:
                 return r.json()
             except Exception:
                 return r.text
         except Exception as e:
+            utils.close_files_after_upload(files)
             raise e
