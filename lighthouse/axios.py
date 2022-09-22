@@ -8,6 +8,8 @@ from . import utils
 
 
 class Axios:
+    """It's not axios, it's just a custom extensible wrapper for requests"""
+
     def __init__(self, url: str):
         self.url = url
 
