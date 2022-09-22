@@ -23,10 +23,12 @@ def deploy(source: str, token: str) -> t.Deploy:
             # walk directory tree and add files to list
             file_dict["files"] = walk_dir_tree(source)
             file_dict["is_dir"] = True
+            file_dict["path"] = source
         else:
             # add file to list
             file_dict["files"] = [source]
             file_dict["is_dir"] = False
+            file_dict["path"] = source
 
         # create headers
         headers = {

@@ -16,3 +16,4 @@ class FileDict(TypedDict):
 
     files: List[str]
     is_dir: bool
+    path: str
