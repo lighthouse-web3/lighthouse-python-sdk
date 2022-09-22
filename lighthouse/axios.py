@@ -13,8 +13,7 @@ class Axios:
                 for key, value in params.items():
                     self.url += f"&{key}={value}"
         except Exception as e:
-            print(e)
-            return e
+            raise e
 
     def get(self, headers: Dict[str, str] = None, **kwargs) -> dict | Exception:
         try:
@@ -23,8 +22,7 @@ class Axios:
             r.raise_for_status()
             return r.json()
         except Exception as e:
-            print(e)
-            return e
+            raise e
 
     def post(
         self, body=None, headers: Dict[str, str] = None, **kwargs
@@ -35,17 +33,15 @@ class Axios:
             r.raise_for_status()
             return r.json()
         except Exception as e:
-            print(e)
-            return e
+            raise e
 
     def read_files(self, files: List[str]) -> List[BufferedReader]:
         file_list = []
         for file in files:
-            with open(file, "rb") as f:
-                file_list.append(f)
+            file_list.append(open(file, "rb"))
         return file_list
 
-    def post_file(
+    def post_files(
         self, file: List[str], headers: Dict[str, str] = None, **kwargs
     ) -> dict | Exception:
         try:
@@ -55,5 +51,4 @@ class Axios:
             r.raise_for_status()
             return r.json()
         except Exception as e:
-            print(e)
-            return e
+            raise e

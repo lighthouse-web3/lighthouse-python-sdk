@@ -1,9 +1,11 @@
-from axios import Axios
-from utils import is_dir, walk_dir_tree
-from config import Config
+from typing import List
+from .axios import Axios
+from .utils import is_dir, walk_dir_tree
+from .config import Config
+from . import types as t
 
 
-def deploy(source: str, token: str):
+def deploy(source: str, token: str) -> t.Deploy:
     """
     Deploy a file or directory to the lighthouse network
     @params {source}: str, path to file or directory
@@ -11,9 +13,9 @@ def deploy(source: str, token: str):
     """
     try:
         # create http object
-        axios = Axios(Config.lighthouse_node)
+        axios = Axios(Config.lighthouse_node + "/api/v0/add")
         # create list of files to upload
-        file_list = []
+        file_list: List[str] = []
         # check if source is a directory
         if is_dir(source):
             # walk directory tree and add files to list
@@ -23,11 +25,6 @@ def deploy(source: str, token: str):
             file_list.append(source)
 
         # create headers
-        """
-        "Content-type": `multipart/form-data; boundary= ${data._boundary}`,
-        "Encryption": false,
-        "Mime-Type": mimeType,
-        """
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "multipart/form-data",
@@ -35,6 +32,6 @@ def deploy(source: str, token: str):
             "Mime-Type": "application/octet-stream",
         }
         # upload files
-        axios.post_file(file_list, headers)
+        return axios.post_files(file_list, headers)
     except Exception as e:
-        print(e)
+        raise e
