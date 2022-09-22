@@ -6,12 +6,14 @@ from typing import List, Tuple
 from . import types as t
 
 # walk path and return list of file paths
-def walk_dir_tree(path: str) -> List[str]:
+def walk_dir_tree(path: str) -> Tuple[List[str], str]:
     file_list = []
+    roots = []
     for root, dirs, files in os.walk(path):
+        roots.append(root)
         for file in files:
             file_list.append(os.path.join(root, file))
-    return file_list
+    return file_list, roots[0]
 
 
 # check if file is a directory
@@ -24,6 +26,8 @@ def extract_file_name(file: str) -> str:
 
 
 def extract_file_name_with_source(file: str, source: str) -> str:
+    if source.endswith("/"):
+        source = source[: len(source) - 1]
     base = source.split("/")[-1]
     return base + file.split(base)[-1]
 

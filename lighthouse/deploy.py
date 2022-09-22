@@ -21,9 +21,9 @@ def deploy(source: str, token: str) -> t.Deploy:
         # check if source is a directory
         if is_dir(source):
             # walk directory tree and add files to list
-            file_dict["files"] = walk_dir_tree(source)
+            file_dict["files"], root = walk_dir_tree(source)
             file_dict["is_dir"] = True
-            file_dict["path"] = source
+            file_dict["path"] = root
         else:
             # add file to list
             file_dict["files"] = [source]

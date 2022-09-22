@@ -21,7 +21,7 @@ class TestDeploy(unittest.TestCase):
     def test_deploy_dir(self):
         """test deploy function"""
         l = Lighthouse(os.environ["LH_TOKEN"])
-        res = l.deploy("tests/testdir")
+        res = l.deploy("tests/testdir/")
         self.assertNotEqual(res.get("data"), None, "data is None")
         self.assertIsInstance(res.get("data"), str, "data is a string")
         self.assertIn("Hash", res.get("data"), "Hash is in data")
