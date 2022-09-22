@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from typing import List
 from .axios import Axios
 from .utils import is_dir, walk_dir_tree

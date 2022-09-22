@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from io import BufferedReader
 from typing import Dict, List
 import requests as req

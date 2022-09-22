@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
+
 from dataclasses import dataclass
 from typing import Dict, NewType, List, Tuple, TypedDict
 
 
 @dataclass
 class Deploy(TypedDict):
-    """typings for deploy function
-    """
+    """typings for deploy function"""
+
     data: dict
