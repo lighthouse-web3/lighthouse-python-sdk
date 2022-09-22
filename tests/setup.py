@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from main import Lighthouse
-
-
-def run_test():
-    """setup test environment and run tests"""
-    parse_env()
-    test_deploy()
-
-
-def test_deploy():
-    """test deploy function"""
-    l = Lighthouse(os.environ["LH_TOKEN"])
-    assert l.deploy("tests/upload_test.txt") == {"data": {}}
+from . import deploy as dt
 
 
 def parse_env():
@@ -24,6 +12,12 @@ def parse_env():
                 continue
             key, value = line.split("=")
             os.environ[key] = value.strip()
+
+
+def run_test():
+    """setup test environment and run tests"""
+    parse_env()
+    dt.test_deploy()
 
 
 if __name__ == "__main__":
