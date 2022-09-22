@@ -17,7 +17,8 @@ def parse_env():
 def run_test():
     """setup test environment and run tests"""
     parse_env()
-    dt.test_deploy()
+    dt.test_deploy_file()
+    dt.test_deploy_dir()
 
 
 if __name__ == "__main__":

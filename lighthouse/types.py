@@ -8,4 +8,11 @@ from typing import Dict, NewType, List, Tuple, TypedDict
 class Deploy(TypedDict):
     """typings for deploy function"""
 
-    data: dict
+    data: dict | str
+
+
+class FileDict(TypedDict):
+    """typings for file dict"""
+
+    files: List[str]
+    is_dir: bool

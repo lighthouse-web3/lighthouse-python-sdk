@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import List
+from typing import Dict, List, Tuple
 from .axios import Axios
 from .utils import is_dir, walk_dir_tree
 from .config import Config
@@ -17,23 +17,25 @@ def deploy(source: str, token: str) -> t.Deploy:
         # create http object
         axios = Axios(Config.lighthouse_node + "/api/v0/add")
         # create list of files to upload
-        file_list: List[str] = []
+        file_dict: t.FileDict = {}
         # check if source is a directory
         if is_dir(source):
             # walk directory tree and add files to list
-            walk_dir_tree(source, file_list)
+            file_dict["files"] = walk_dir_tree(source)
+            file_dict["is_dir"] = True
         else:
             # add file to list
-            file_list.append(source)
+            file_dict["files"] = [source]
+            file_dict["is_dir"] = False
 
         # create headers
         headers = {
             "Authorization": f"Bearer {token}",
-            "Content-Type": "multipart/form-data",
+            # "Content-Type": "multipart/form-data",
             "Encryption": "false",
             "Mime-Type": "application/octet-stream",
         }
         # upload files
-        return axios.post_files(file_list, headers)
+        return {"data": axios.post_files(file_dict, headers)}
     except Exception as e:
         raise e
