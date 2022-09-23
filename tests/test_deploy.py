@@ -23,8 +23,8 @@ class TestDeploy(unittest.TestCase):
         l = Lighthouse(os.environ["LH_TOKEN"])
         res = l.deploy("tests/testdir/")
         self.assertNotEqual(res.get("data"), None, "data is None")
-        self.assertIsInstance(res.get("data"), str, "data is a string")
-        self.assertIn("Hash", res.get("data"), "Hash is in data")
+        self.assertIsInstance(res.get("data"), dict, "data is a dict")
+        self.assertNotEqual(res.get("data").get("Hash"), None, "data is None")
 
 
 if __name__ == "__main__":

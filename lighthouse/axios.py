@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from io import BufferedReader
+import json
 from typing import Dict, List, Tuple
 import requests as req
 from . import types as t
@@ -53,7 +54,8 @@ class Axios:
             try:
                 return r.json()
             except Exception:
-                return r.text
+                temp = r.text.split("\n")
+                return json.loads(temp[len(temp) - 2])
         except Exception as e:
             utils.close_files_after_upload(files)
             raise e
