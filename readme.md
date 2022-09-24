@@ -22,10 +22,34 @@ or using nose2
 pip install requirements.txt && python -m nose2
 ```
 
-# Bundling
+# Usage
 
-To bundle the library, run the following command:
+### Instantiate the client
 
+```python
+from lighthouse import Lighthouse
+
+# use token from env variable LIGHTHOUSE_TOKEN
+lh = LighthouseClient()
+
+# or you can pass token as parameter
+lh = LighthouseClient(token="your_token")
 ```
-python setup.py
+
+### Uploading a file
+
+```python
+from lighthouse import Lighthouse
+lh = Lighthouse()
+response = lh.upload_file("path/to/file")
+print(response) # prints a dict containing the cid of the file
+```
+
+### Uploading a directory
+
+```python
+from lighthouse import Lighthouse
+lh = Lighthouse("my-lightouse-token")
+response = lh.deploy("path/to/directory")
+print(response) # prints a dict containing the root cid of the directory
 ```

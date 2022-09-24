@@ -11,6 +11,12 @@ class TestDeploy(unittest.TestCase):
         """setup test environment"""
         parse_env()
 
+    def test_env(self):
+        """test env var"""
+        self.assertNotEqual(
+            os.environ.get("LIGHTHOUSE_TOKEN"), None, "token is not None"
+        )
+
     def test_deploy_file(self):
         """test deploy function"""
         l = Lighthouse()  # will use env var
@@ -20,7 +26,7 @@ class TestDeploy(unittest.TestCase):
 
     def test_deploy_dir(self):
         """test deploy function"""
-        l = Lighthouse(os.environ["LIGHTHOUSE_TOKEN"])
+        l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
         res = l.deploy("tests/testdir/")
         self.assertNotEqual(res.get("data"), None, "data is None")
         self.assertIsInstance(res.get("data"), dict, "data is a dict")
