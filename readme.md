@@ -30,10 +30,10 @@ pip install requirements.txt && python -m nose2
 from lighthouse import Lighthouse
 
 # use token from env variable LIGHTHOUSE_TOKEN
-lh = LighthouseClient()
+lh = Lighthouse()
 
 # or you can pass token as parameter
-lh = LighthouseClient(token="your_token")
+lh = Lighthouse(token="your_token")
 ```
 
 ### Uploading a file
