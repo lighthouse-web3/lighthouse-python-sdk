@@ -8,20 +8,6 @@ Lighthouse is a permanent decentralized file storage protocol that allows the ab
 pip install lighthouse.py
 ```
 
-# Testing
-
-The tests are written with inheritance from the unittest module. To run the tests, run the following command:
-
-```
-pip install requirements.txt && python -m unittest discover
-```
-
-or using nose2
-
-```
-pip install requirements.txt && python -m nose2
-```
-
 # Usage
 
 ### Instantiate the client
@@ -52,4 +38,18 @@ from lighthouse import Lighthouse
 lh = Lighthouse("my-lightouse-token")
 response = lh.deploy("path/to/directory")
 print(response) # prints a dict containing the root cid of the directory
+```
+
+# Testing
+
+The tests are written with inheritance from the unittest module. To run the tests, run the following command:
+
+```
+pip install requirements.txt && python -m unittest discover
+```
+
+or using nose2
+
+```
+pip install requirements.txt && python -m nose2
 ```
