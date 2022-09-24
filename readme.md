@@ -41,7 +41,7 @@ lh = Lighthouse(token="your_token")
 ```python
 from lighthouse import Lighthouse
 lh = Lighthouse()
-response = lh.upload_file("path/to/file")
+response = lh.deploy("path/to/file")
 print(response) # prints a dict containing the cid of the file
 ```
 
