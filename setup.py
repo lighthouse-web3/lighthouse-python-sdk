@@ -9,11 +9,10 @@ setup(
     author="Perfection Loveday",
     author_email="perfection@lighthouse.storage",
     url="https://github.com/lighthouse-web3/lighthouse-python-sdk",
-    packages=find_packages("lighthouseweb3"),
+    packages=find_packages("src"),
     install_requires=["requests"],
     python_requires=">=3.6",
     classifiers=[
-        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
@@ -23,7 +22,6 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="lighthouse storage sdk python filecoin ipfs web3 perpetual",
     long_description=(

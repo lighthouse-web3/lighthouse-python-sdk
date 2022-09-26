@@ -2,7 +2,7 @@
 
 import os
 import unittest
-from lighthouseweb3 import Lighthouse
+from ..src.lighthouseweb3 import Lighthouse
 from .setup import parse_env
 
 
