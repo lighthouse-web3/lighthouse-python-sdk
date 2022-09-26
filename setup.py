@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import pathlib
 from setuptools import setup, find_packages
 
 setup(
@@ -25,4 +26,7 @@ setup(
         "Programming Language :: Python :: 3 :: Only",
     ],
     keywords="lighthouse storage sdk python filecoin ipfs web3 perpetual",
+    long_description=(
+        (pathlib.Path(__file__).parent.resolve()) / "README.md"
+    ).read_text(encoding="utf-8"),
 )
