@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-import lighthouse.deploy as d
-from lighthouse import types as t
+from .functions import deploy as d
+from .functions import types as t
 
 
 class Lighthouse:
