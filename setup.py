@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="lighthouseweb3",
-    version="0.0.1",
+    version="0.0.4",
     description="Lighthouse Python SDK",
     author="Perfection Loveday",
     author_email="perfection@lighthouse.storage",
@@ -29,4 +29,5 @@ setup(
     long_description=(
         (pathlib.Path(__file__).parent.resolve()) / "README.md"
     ).read_text(encoding="utf-8"),
+    long_description_content_type="text/markdown",
 )
