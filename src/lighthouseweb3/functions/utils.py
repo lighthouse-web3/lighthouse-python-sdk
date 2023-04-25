@@ -1,11 +1,24 @@
 #!/usr/bin/env python3
 
-from io import BufferedReader
+from io import BufferedReader, BytesIO
 import os
 from typing import List, Tuple
 from . import types as t
 
+
+class NamedBufferedReader:
+    def __init__(self, buffer, name:str):
+        self.reader = BufferedReader(buffer)
+        self.name = name
+
+    def read(self, *args, **kwargs):
+        return self.reader.read(*args, **kwargs)
+
+    def close(self):
+        self.reader.close()
 # walk path and return list of file paths
+
+
 def walk_dir_tree(path: str) -> Tuple[List[str], str]:
     file_list = []
     roots = []

@@ -5,8 +5,8 @@ from typing import Dict, NewType, List, Tuple, TypedDict
 
 
 @dataclass
-class Deploy(TypedDict):
-    """typings for deploy function"""
+class Upload(TypedDict):
+    """typings for upload function"""
 
     data: dict | str
 

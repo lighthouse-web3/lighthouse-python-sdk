@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from .functions import deploy as d
+from .functions import upload as d
 from .functions import types as t
 
 
@@ -13,12 +13,12 @@ class Lighthouse:
                 "No token provided: Please provide a token or set the LIGHTHOUSE_TOKEN environment variable"
             )
 
-    def deploy(self, source: str) -> t.Deploy:
+    def upload(self, source: str) -> t.Upload:
         """
-        Deploy a file or directory to the lighthouse network
+        Upload a file or directory to the lighthouse network
         @params {source}: str, path to file or directory
         """
         try:
-            return d.deploy(source, self.token)
+            return d.upload(source, self.token)
         except Exception as e:
             raise e
