@@ -42,7 +42,30 @@ def upload(source: str | BufferedReader | NamedBufferedReader, token: str) -> t.
                 file_dict["path"] = source
             return {"data": axios.post_files(file_dict, headers)}
         else:
-            return {"data": axios.post_blob(source, headers)}
+            return {"data": axios.post_blob(source, source.name, headers)}
+    except Exception as e:
+        print(e)
+        raise e
+
+
+def uploadBlob(source:  BufferedReader, filename: str, token: str) -> t.Upload:
+    """
+    Upload a Buffer or readable Object
+    @params {source}: str, path to file or directory
+    @params {token}: str, lighthouse api token
+    """
+    # create headers
+    headers = {
+        "Authorization": f"Bearer {token}",
+        # "Content-Type": "multipart/form-data",
+        "Encryption": "false",
+        "Mime-Type": "application/octet-stream",
+    }
+    try:
+        # create http object
+        axios = Axios(Config.lighthouse_node + "/api/v0/add")
+        # create list of files to upload
+        return {"data": axios.post_blob(source, filename, headers)}
     except Exception as e:
         print(e)
         raise e

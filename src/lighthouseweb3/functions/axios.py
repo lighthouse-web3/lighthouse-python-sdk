@@ -61,14 +61,14 @@ class Axios:
             raise e
 
     def post_blob(
-        self, file: BufferedReader, headers: Dict[str, str] = None, **kwargs
+        self, file: BufferedReader, filename: str, headers: Dict[str, str] = None, **kwargs
     ) -> dict | Exception:
         try:
             self.parse_url_query(kwargs.get("query", None))
             files = [(
                 "file",
                 (
-                    utils.extract_file_name(file.name),
+                    utils.extract_file_name(filename),
                     file.read(),
                     "application/octet-stream",
                 ),

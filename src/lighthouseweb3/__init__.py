@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import io
 from typing import List
 from .functions import upload as d, types as t, deal_status, get_uploads as getUploads
 
@@ -22,6 +23,18 @@ class Lighthouse:
         """
         try:
             return d.upload(source, self.token)
+        except Exception as e:
+            raise e
+
+    def uploadBlob(self, source: io.BufferedReader, filename: str) -> t.Upload:
+        """
+        Upload Blob a file or directory to the Lighthouse.
+
+        :param source: str, path to file or directory
+        :return: t.Upload, the upload result
+        """
+        try:
+            return d.uploadBlob(source, filename, self.token)
         except Exception as e:
             raise e
 

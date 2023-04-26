@@ -5,6 +5,13 @@ import unittest
 from src.lighthouseweb3 import Lighthouse
 from src.lighthouseweb3.functions.utils import NamedBufferedReader
 from .setup import parse_env
+import string
+import secrets
+
+
+def generate_random_string(length: int) -> str:
+    characters = string.ascii_letters + string.digits
+    return ''.join(secrets.choice(characters) for _ in range(length))
 
 
 class TestUpload(unittest.TestCase):
@@ -36,8 +43,8 @@ class TestUpload(unittest.TestCase):
     def test_Upload_Blob(self):
         """test Upload function"""
         l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
-        res = l.upload(NamedBufferedReader(
-            io.BytesIO(b"tests/testdir/"), "hwh.txt"))
+        res = l.uploadBlob(
+            io.BytesIO(b"tests/testdir/"), f"{generate_random_string(16)}.txt")
         self.assertNotEqual(res.get("data"), None, "data is None")
         self.assertIsInstance(res.get("data"), dict, "data is a dict")
         self.assertNotEqual(res.get("data").get("Hash"), None, "data is None")
