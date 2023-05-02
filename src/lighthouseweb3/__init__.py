@@ -33,6 +33,8 @@ class Lighthouse:
         :param source: str, path to file or directory
         :return: t.Upload, the upload result
         """
+        if not (hasattr(source, 'read') and hasattr(source, 'close')):
+            raise TypeError("source must have 'read' and 'close' methods")
         try:
             return d.uploadBlob(source, filename, self.token)
         except Exception as e:
