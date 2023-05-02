@@ -14,7 +14,7 @@ def bytes_to_size(bytes_size):
 
 def get_uploads(publicKey: str, pageNo: int = 1) -> t.UploadsResponseType:
     try:
-        url = f"{Config.lighthouse_api_v2}/api/user/files_uploaded?publicKey={publicKey}&pageNo={pageNo}"
+        url = f"{Config.lighthouse_api}/api/user/files_uploaded?publicKey={publicKey}&pageNo={pageNo}"
         response = requests.get(url)
         response.raise_for_status()
         return response.json()
