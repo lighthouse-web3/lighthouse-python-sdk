@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="lighthouseweb3",
-    version="0.0.6",
+    version="0.0.7",
     license="GNU GENERAL PUBLIC LICENSE",
     description="Lighthouse Python SDK",
     author="Perfection Loveday",
