@@ -27,7 +27,7 @@ lh = Lighthouse(token="your_token")
 ```python
 from lighthouseweb3 import Lighthouse
 lh = Lighthouse()
-response = lh.deploy("path/to/file")
+response = lh.upload("path/to/file")
 print(response) # prints a dict containing the cid of the file
 ```
 
@@ -36,7 +36,7 @@ print(response) # prints a dict containing the cid of the file
 ```python
 from lighthouseweb3 import Lighthouse
 lh = Lighthouse("my-lightouse-token")
-response = lh.deploy("path/to/directory")
+response = lh.upload("path/to/directory")
 print(response) # prints a dict containing the root cid of the directory
 ```
 
@@ -45,11 +45,11 @@ print(response) # prints a dict containing the root cid of the directory
 The tests are written with inheritance from the unittest module. To run the tests, run the following command:
 
 ```
-pip install requirements.txt && python -m unittest discover
+pip install -r requirements.txt && python -m unittest discover
 ```
 
 or using nose2
 
 ```
-pip install requirements.txt && python -m nose2
+pip install -r requirements.txt && python -m nose2
 ```

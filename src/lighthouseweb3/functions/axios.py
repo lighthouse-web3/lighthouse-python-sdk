@@ -59,3 +59,28 @@ class Axios:
         except Exception as e:
             utils.close_files_after_upload(files)
             raise e
+
+    def post_blob(
+        self, file: BufferedReader, filename: str, headers: Dict[str, str] = None, **kwargs
+    ) -> dict | Exception:
+        try:
+            self.parse_url_query(kwargs.get("query", None))
+            files = [(
+                "file",
+                (
+                    utils.extract_file_name(filename),
+                    file.read(),
+                    "application/octet-stream",
+                ),
+            ),]
+            r = req.post(self.url, headers=headers, files=files)
+            r.raise_for_status()
+            file.close()
+            try:
+                return r.json()
+            except Exception:
+                temp = r.text.split("\n")
+                return json.loads(temp[len(temp) - 2])
+        except Exception as e:
+            file.close()
+            raise e
