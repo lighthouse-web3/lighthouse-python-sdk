@@ -3,7 +3,7 @@
 import os
 import io
 from typing import List
-from .functions import upload as d, types as t, deal_status, get_uploads as getUploads
+from .functions import upload as d, types as t, deal_status, get_uploads as getUploads, download as _download
 
 
 class Lighthouse:
@@ -41,6 +41,21 @@ class Lighthouse:
             raise e
 
     @staticmethod
+    def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10) -> t.Upload:
+        """
+        Download Blob a file or directory to the Lighthouse.
+
+        :param source: str, path to file or directory
+        :return: t.Upload, the upload result
+        """
+        if not (hasattr(dist, 'read') and hasattr(dist, 'close')):
+            raise TypeError("source must have 'read' and 'close' methods")
+        try:
+            return _download.download_file_into_writable(cid, dist, chunk_size)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def getDealStatus(cid: str) -> List[t.DealData]:
         """
         Get deal status from the Lighthouse.
@@ -64,5 +79,19 @@ class Lighthouse:
         """
         try:
             return getUploads.get_uploads(publicKey, pageNo)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def download(cid: str) -> bytes:
+        """
+        Get uploads from the Lighthouse.
+
+        :param publicKey: str, public key
+        :param pageNo: int, page number (default: 1)
+        :return: List[t.DealData], list of deal data
+        """
+        try:
+            return _download.get_file(cid)
         except Exception as e:
             raise e
