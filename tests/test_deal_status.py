@@ -14,7 +14,7 @@ class TestDealStatus(unittest.TestCase):
         res = Lighthouse.getDealStatus(
             "QmT9shXpKcn4HRbJhXJ1ZywzwjEo2QWbxAx4SVgW4eYKjG")
         self.assertIsInstance(res, list, "data is a list")
-        self.assertNotEqual(res[0].get(
+        self.assertIsInstance(res[0].get(
             "dealId"), int, "dealId is Int")
 
     def test_deal_status_init(self):
@@ -24,5 +24,5 @@ class TestDealStatus(unittest.TestCase):
         res = l.getDealStatus(
             "QmT9shXpKcn4HRbJhXJ1ZywzwjEo2QWbxAx4SVgW4eYKjG")
         self.assertIsInstance(res, list, "data is a list")
-        self.assertNotEqual(res[0].get(
+        self.assertIsInstance(res[0].get(
             "dealId"), int, "dealId is Int")
