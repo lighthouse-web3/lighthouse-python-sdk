@@ -3,12 +3,12 @@ import pathlib
 from setuptools import setup, find_packages
 
 setup(
-    name="lighthouseweb3",
-    version="0.0.7",
+    name="lighthouse-web3/Lighthouse-Python-SDK",
+    version="0.1.1",
     license="GNU GENERAL PUBLIC LICENSE",
     description="Lighthouse Python SDK",
-    author="Ayobami Oki| Ravish Sharma | Perfection Loveday",
-    author_email="ravish@lighthouse.storage",
+    author="Ravish Sharma | Ayobami Oki | Nandit Mehra",
+    author_email="nandit123@lighthouse.storage",
     url="https://github.com/lighthouse-web3/lighthouse-python-sdk",
     packages=find_packages("src"),
     package_dir={"": "src"},
