@@ -24,6 +24,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     keywords="lighthouse storage sdk python filecoin ipfs web3 perpetual",
     long_description=(

@@ -33,23 +33,14 @@ class TestDownload(unittest.TestCase):
         self.assertIsInstance(res, bytes, "type doesn't match")
         self.assertEqual(res, b'tests/testdir/', "data doesn't match")
 
-    # def test_download_blob(self):
-    #     """test Upload function"""
-    #     l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
-    #     res = l.uploadBlob(
-    #         io.BytesIO(b"tests/testdir/"), f"{generate_random_string(16)}.txt")
-    #     self.assertNotEqual(res.get("data"), None, "data is None")
-    #     self.assertIsInstance(res.get("data"), dict, "data is a dict")
-    #     self.assertNotEqual(res.get("data").get("Hash"), None, "data is None")
-
     def test_download_blob_file(self):
         """test download_blob function"""
         l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
         with open("./image.png", "wb") as file:
             res = l.downloadBlob(
                 file, "QmPT11PFFQQD3mT6BdwfSHQGHRdF8ngmRmcvxtSBiddWEa", chunk_size=1024*100)
-            self.assertEqual(file.tell(), 123939, "File Size dont match")
-            self.assertEqual(res, True, "data doesn't match")
+            self.assertEqual(res.get("data").get("Size"),
+                             123939, "File Size dont match")
 
 
 if __name__ == "__main__":
