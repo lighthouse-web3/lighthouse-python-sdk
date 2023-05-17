@@ -59,6 +59,21 @@ class Lighthouse:
             raise e
 
     @staticmethod
+    def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10) -> t.Upload:
+        """
+        Download Blob a file or directory to the Lighthouse.
+
+        :param source: str, path to file or directory
+        :return: t.Upload, the upload result
+        """
+        if not (hasattr(dist, 'read') and hasattr(dist, 'close')):
+            raise TypeError("source must have 'read' and 'close' methods")
+        try:
+            return _download.download_file_into_writable(cid, dist, chunk_size)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def getDealStatus(cid: str) -> List[t.DealData]:
         """
         Get deal status from the Lighthouse.
@@ -110,3 +125,4 @@ class Lighthouse:
             return _download.getTaggedCid(tag, self.token)
         except Exception as e:
             raise e
+
