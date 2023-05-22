@@ -45,7 +45,7 @@ def upload(source: str | BufferedReader | NamedBufferedReader, token: str, tag: 
             hashData = axios.post_blob(source, source.name, headers)
 
         if len(tag):
-            _axios = Axios(Config.lighthouse_api_test + "/api/user/create_tag")
+            _axios = Axios(Config.lighthouse_api + "/api/user/create_tag")
             data = _axios.post({
                 "tag": tag,
                 "cid": hashData.get("Hash")
@@ -77,7 +77,7 @@ def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""
 
         hashData = axios.post_blob(source, filename, headers)
         if len(tag):
-            _axios = Axios(Config.lighthouse_api_test + "/api/user/create_tag")
+            _axios = Axios(Config.lighthouse_api + "/api/user/create_tag")
             data = _axios.post({
                 "tag": tag,
                 "cid": hashData.get("Hash")
