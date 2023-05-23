@@ -32,6 +32,7 @@ class TestDownload(unittest.TestCase):
             "Qmd5MBBScDUV3Ly8qahXtZFqyRRfYSmUwEcxpYcV4hzKfW")
         self.assertIsInstance(res, bytes, "type doesn't match")
         self.assertEqual(res, b'tests/testdir/', "data doesn't match")
+        self.assertEqual(res.decode('utf-8'), 'tests/testdir/')
 
     def test_download_blob_file(self):
         """test download_blob function"""
@@ -41,7 +42,6 @@ class TestDownload(unittest.TestCase):
                 file, "QmPT11PFFQQD3mT6BdwfSHQGHRdF8ngmRmcvxtSBiddWEa", chunk_size=1024*100)
             self.assertEqual(res.get("data").get("Size"),
                              123939, "File Size dont match")
-
 
 
 if __name__ == "__main__":

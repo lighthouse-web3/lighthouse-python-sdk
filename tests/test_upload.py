@@ -86,6 +86,13 @@ class TestUpload(unittest.TestCase):
         self.assertEqual(res.get("data").get("Hash"), tagData.get(
             "data").get("cid"), "Tag dont match")
 
+    def test_tag_notFound(self):
+        """test Upload with tag function"""
+        l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
+        tag = generate_random_string(9)
+        tagData = l.getTagged(tag)
+        self.assertEqual(None, tagData.get("data"), "Tag dont match")
+
 
 if __name__ == "__main__":
     unittest.main()
