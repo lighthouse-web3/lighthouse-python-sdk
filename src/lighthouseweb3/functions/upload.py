@@ -5,10 +5,9 @@ from typing import Dict, List, Tuple
 from .axios import Axios
 from .utils import is_dir, walk_dir_tree, extract_file_name, NamedBufferedReader
 from .config import Config
-from . import types as t
 
 
-def upload(source: str | BufferedReader | NamedBufferedReader, token: str, tag: str = "") -> t.Upload:
+def upload(source, token: str, tag: str = ""):
     """
     Deploy a file or directory to the lighthouse network
     @params {source}: str, path to file or directory
@@ -27,7 +26,7 @@ def upload(source: str | BufferedReader | NamedBufferedReader, token: str, tag: 
         # create list of files to upload
 
         if (isinstance(source, str)):
-            file_dict: t.FileDict = {}
+            file_dict = {}
 
             # check if source is a directory
             if is_dir(source):
@@ -57,7 +56,7 @@ def upload(source: str | BufferedReader | NamedBufferedReader, token: str, tag: 
         raise e
 
 
-def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = "") -> t.Upload:
+def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""):
     """
     Upload a Buffer or readable Object
     @params {source}: str, path to file or directory
