@@ -2,9 +2,7 @@
 
 from io import BufferedReader
 import json
-from typing import Dict, List, Tuple
 import requests as req
-from . import types as t
 from . import utils
 
 
@@ -14,7 +12,7 @@ class Axios:
     def __init__(self, url: str):
         self.url = url
 
-    def parse_url_query(self, query: Dict[str, str]):
+    def parse_url_query(self, query):
         try:
             if query is not None and isinstance(query, dict):
                 for key, value in query.items():
@@ -22,7 +20,7 @@ class Axios:
         except Exception as e:
             raise e
 
-    def get(self, headers: Dict[str, str] = None, **kwargs) -> dict | Exception:
+    def get(self, headers = None, **kwargs) :
         try:
             self.parse_url_query(kwargs.get("query", None))
             r = req.get(self.url, headers=headers)
@@ -32,8 +30,8 @@ class Axios:
             raise e
 
     def post(
-        self, body=None, headers: Dict[str, str] = None, **kwargs
-    ) -> dict | Exception:
+        self, body=None, headers= None, **kwargs
+    ):
         try:
             self.parse_url_query(kwargs.get("query", None))
             r = req.post(self.url, data=body, headers=headers)
@@ -43,8 +41,8 @@ class Axios:
             raise e
 
     def post_files(
-        self, file: t.FileDict, headers: Dict[str, str] = None, **kwargs
-    ) -> dict | Exception:
+        self, file, headers = None, **kwargs
+    ) :
         try:
             self.parse_url_query(kwargs.get("query", None))
             files = utils.read_files_for_upload(file)
@@ -61,8 +59,8 @@ class Axios:
             raise e
 
     def post_blob(
-        self, file: BufferedReader, filename: str, headers: Dict[str, str] = None, **kwargs
-    ) -> dict | Exception:
+        self, file: BufferedReader, filename: str, headers = None, **kwargs
+    ) :
         try:
             self.parse_url_query(kwargs.get("query", None))
             files = [(

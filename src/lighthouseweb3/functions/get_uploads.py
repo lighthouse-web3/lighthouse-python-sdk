@@ -1,6 +1,5 @@
 import requests
 from .config import Config
-from . import types as t
 
 
 def bytes_to_size(bytes_size):
@@ -12,7 +11,7 @@ def bytes_to_size(bytes_size):
     return f"{round(bytes_size, 2)} {units[index]}"
 
 
-def get_uploads(publicKey: str, pageNo: int = 1) -> t.UploadsResponseType:
+def get_uploads(publicKey: str, pageNo: int = 1) :
     try:
         url = f"{Config.lighthouse_api}/api/user/files_uploaded?publicKey={publicKey}&pageNo={pageNo}"
         response = requests.get(url)

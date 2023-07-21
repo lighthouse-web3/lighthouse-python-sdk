@@ -2,8 +2,7 @@
 
 import os
 import io
-from typing import List
-from .functions import upload as d, types as t, deal_status, get_uploads as getUploads, download as _download
+from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
 
 
 class Lighthouse:
@@ -14,7 +13,7 @@ class Lighthouse:
                 "No token provided: Please provide a token or set the LIGHTHOUSE_TOKEN environment variable"
             )
 
-    def upload(self, source: str, tag: str = '') -> t.Upload:
+    def upload(self, source: str, tag: str = ''):
         """
         Upload a file or directory to the Lighthouse.
 
@@ -26,7 +25,7 @@ class Lighthouse:
         except Exception as e:
             raise e
 
-    def uploadBlob(self, source: io.BufferedReader, filename: str, tag: str = '') -> t.Upload:
+    def uploadBlob(self, source: io.BufferedReader, filename: str, tag: str = ''):
         """
         Upload Blob a file or directory to the Lighthouse.
 
@@ -41,14 +40,13 @@ class Lighthouse:
             raise e
 
     @staticmethod
-    def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10) -> t.Upload:
+    def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
         """
         Download a Blob (file or directory) from the Lighthouse.
 
         :param dist: BufferedWriter, destination to write the downloaded data
         :param cid: str, Content Identifier for the data to be downloaded
         :param chunk_size: int, size of chunks in which the file will be downloaded (default: 10MB)
-        :param useCidAsTag: bool, flag to use CID as a tag (default: False)
         :return: t.Upload, the download result
         """
         if not (hasattr(dist, 'read') and hasattr(dist, 'close')):
@@ -57,24 +55,9 @@ class Lighthouse:
             return _download.download_file_into_writable(cid, dist, chunk_size)
         except Exception as e:
             raise e
-
+            
     @staticmethod
-    def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10) -> t.Upload:
-        """
-        Download Blob a file or directory to the Lighthouse.
-
-        :param source: str, path to file or directory
-        :return: t.Upload, the upload result
-        """
-        if not (hasattr(dist, 'read') and hasattr(dist, 'close')):
-            raise TypeError("source must have 'read' and 'close' methods")
-        try:
-            return _download.download_file_into_writable(cid, dist, chunk_size)
-        except Exception as e:
-            raise e
-
-    @staticmethod
-    def getDealStatus(cid: str) -> List[t.DealData]:
+    def getDealStatus(cid: str):
         """
         Get deal status from the Lighthouse.
 
@@ -87,7 +70,7 @@ class Lighthouse:
             raise e
 
     @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1) -> List[t.DealData]:
+    def getUploads(publicKey: str, pageNo: int = 1):
         """
         Get uploads from the Lighthouse.
 
@@ -101,7 +84,7 @@ class Lighthouse:
             raise e
 
     @staticmethod
-    def download(cid: str) -> bytes:
+    def download(cid: str):
         """
         Download content from the Lighthouse using its Content Identifier (CID).
 
@@ -114,7 +97,7 @@ class Lighthouse:
         except Exception as e:
             raise e
 
-    def getTagged(self, tag: str) -> t.Upload:
+    def getTagged(self, tag: str):
         """
         Retrieve an upload from the Lighthouse using its tag.
 

@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="lighthouse-web3/Lighthouse-Python-SDK",
-    version="0.1.1",
+    version="0.1.4",
     license="GNU GENERAL PUBLIC LICENSE",
     description="Lighthouse Python SDK",
     author="Ravish Sharma | Ayobami Oki | Nandit Mehra",

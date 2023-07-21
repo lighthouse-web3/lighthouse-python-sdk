@@ -1,10 +1,8 @@
 import requests
-from typing import List
 from .config import Config
-from . import types as t
 
 
-def get_deal_status(cid: str) -> List[t.DealData]:
+def get_deal_status(cid: str):
     try:
         url = f"{Config.lighthouse_api}/api/lighthouse/deal_status?cid={cid}"
         response = requests.get(url)
