@@ -69,8 +69,7 @@ class Lighthouse:
         except Exception as e:
             raise e
 
-    @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1):
+    def getUploads(self, lastKey: int = None):
         """
         Get uploads from the Lighthouse.
 
@@ -79,7 +78,7 @@ class Lighthouse:
         :return: List[t.DealData], list of deal data
         """
         try:
-            return getUploads.get_uploads(publicKey, pageNo)
+            return getUploads.get_uploads(self.token, lastKey)
         except Exception as e:
             raise e
 
