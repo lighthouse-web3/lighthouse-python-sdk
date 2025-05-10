@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 import os
-import io
 import unittest
 from src.lighthouseweb3 import Lighthouse
-from src.lighthouseweb3.functions.utils import NamedBufferedReader
 from .setup import parse_env
 
 
-class TestDealStatus(unittest.TestCase):
+class TestUploadStatus(unittest.TestCase):
 
     def test_get_upload(self):
         """test get_upload function"""
