@@ -8,7 +8,7 @@ from .setup import parse_env
 class TestGetFileInfo(unittest.TestCase):
 
     def test_get_file_info(self):
-        """test get_upload function"""
+        """test get_file_info function"""
         parse_env()
         l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
         res = l.getFileInfo("Qmd5MBBScDUV3Ly8qahXtZFqyRRfYSmUwEcxpYcV4hzKfW")
