@@ -7,7 +7,7 @@ from src.lighthouseweb3.functions.utils import NamedBufferedReader
 from .setup import parse_env
 
 
-class TestDealStatus(unittest.TestCase):
+class TestGetUploads(unittest.TestCase):
 
     def test_get_upload(self):
         """test get_upload function"""
