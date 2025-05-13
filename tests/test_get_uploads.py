@@ -5,7 +5,7 @@ from src.lighthouseweb3 import Lighthouse
 from .setup import parse_env
 
 
-class TestUploadStatus(unittest.TestCase):
+class TestGetUploads(unittest.TestCase):
 
     def test_get_upload(self):
         """test get_upload function"""
