@@ -6,7 +6,8 @@ from .functions import (
     upload as d,deal_status, 
     get_uploads as getUploads, 
     download as _download,
-    get_file_info as getFileInfo
+    get_file_info as getFileInfo,
+    get_balance as getBalance
 )
 
 class Lighthouse:
@@ -42,6 +43,31 @@ class Lighthouse:
             return d.uploadBlob(source, filename, self.token, tag)
         except Exception as e:
             raise e
+    
+    def getUploads(self, lastKey: int = None):
+        """
+        Get uploads from the Lighthouse.
+
+        :param publicKey: str, public key
+        :param pageNo: int, page number (default: 1)
+        :return: List[t.DealData], list of deal data
+        """
+        try:
+            return getUploads.get_uploads(self.token, lastKey)
+        except Exception as e:
+            raise e
+
+    def getBalance(self, publicKey: str):
+        """
+        Retrieve the balance information of a user from the Lighthouse.
+
+        :param publicKey: str, The public key of the user.
+        :return: dict[str, any], A dictionary containing the data usage and data limit details.
+        """
+        try:
+            return getBalance.get_balance(self.token, publicKey)
+        except Exception as e:
+            raise e
 
     @staticmethod
     def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
@@ -73,19 +99,7 @@ class Lighthouse:
         except Exception as e:
             raise e
 
-    def getUploads(self, lastKey: int = None):
-        """
-        Get uploads from the Lighthouse.
-
-        :param publicKey: str, public key
-        :param pageNo: int, page number (default: 1)
-        :return: List[t.DealData], list of deal data
-        """
-        try:
-            return getUploads.get_uploads(self.token, lastKey)
-        except Exception as e:
-            raise e
-
+    
     @staticmethod
     def download(cid: str):
         """
