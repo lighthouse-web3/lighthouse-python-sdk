@@ -7,7 +7,8 @@ from .functions import (
     get_uploads as getUploads, 
     download as _download,
     get_file_info as getFileInfo,
-    get_balance as getBalance
+    get_balance as getBalance,
+    get_api_key as getApiKey
 )
 
 class Lighthouse:
@@ -124,6 +125,22 @@ class Lighthouse:
 
         try:
             return getFileInfo.get_file_info(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getApiKey(publicKey: str, signedMessage: str):
+        """
+        Generates and returns an API key for the given public key and signed message.
+
+        :param publicKey: str, The public key associated with the user.
+        :param signedMessage: str, The message signed by the user's private key.
+        :return: dict, A dict with generated API key.
+        """
+
+
+        try:
+            return getApiKey.create_api_key(publicKey, signedMessage)
         except Exception as e:
             raise e
 
