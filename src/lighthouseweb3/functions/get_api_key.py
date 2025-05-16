@@ -14,4 +14,15 @@ def create_api_key(publicKey: str, signedMessage: str):
   except Exception as e:
     raise Exception("Failed to create api key")
 
-  return response.json()
+  if response.status_code != 200:
+    return response.json()
+
+  apiKey = response.json()
+
+  result = {
+    "data": {
+      "apiKey" : apiKey
+    }
+  }
+
+  return result
