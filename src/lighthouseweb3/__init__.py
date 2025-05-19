@@ -8,7 +8,8 @@ from .functions import (
     download as _download,
     get_file_info as getFileInfo,
     get_balance as getBalance,
-    get_api_key as getApiKey
+    get_api_key as getApiKey,
+    ipns_generate_key as ipnsGenerateKey
 )
 
 class Lighthouse:
@@ -67,6 +68,17 @@ class Lighthouse:
         """
         try:
             return getBalance.get_balance(self.token, publicKey)
+        except Exception as e:
+            raise e
+
+    def generateKey(self):
+        """
+        Generate a new IPNS key for the authenticated user.
+
+        :return: dict, The generated IPNS key information.
+        """
+        try:
+            return ipnsGenerateKey.ipns_generate_key(self.token)
         except Exception as e:
             raise e
 
