@@ -9,7 +9,8 @@ from .functions import (
     get_file_info as getFileInfo,
     get_balance as getBalance,
     get_api_key as getApiKey,
-    ipns_generate_key as ipnsGenerateKey
+    ipns_generate_key as ipnsGenerateKey,
+    ipns_publish_record as ipnsPublishRecord
 )
 
 class Lighthouse:
@@ -79,6 +80,19 @@ class Lighthouse:
         """
         try:
             return ipnsGenerateKey.ipns_generate_key(self.token)
+        except Exception as e:
+            raise e
+    
+    def publishRecord(self, cid: str, keyName: str):
+        """
+        Publish an IPNS record for a given CID and key name.
+
+        :param cid: str, Content Identifier to publish
+        :param keyName: str, Name of the IPNS key to use
+        :return: dict, The published IPNS record information
+        """
+        try:
+            return ipnsPublishRecord.ipns_publish_record(self.token, cid, keyName)
         except Exception as e:
             raise e
 
