@@ -5,7 +5,7 @@ from src.lighthouseweb3 import Lighthouse
 from .setup import parse_env
 
 
-class TestIPNSGenerateKey(unittest.TestCase):
+class TestGetIPNSRecord(unittest.TestCase):
 
     def test_get_ipns_records(self):
         """test get_ipns_records function"""
