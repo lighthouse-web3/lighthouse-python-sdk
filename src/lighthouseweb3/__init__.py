@@ -11,7 +11,8 @@ from .functions import (
     get_api_key as getApiKey,
     ipns_generate_key as ipnsGenerateKey,
     ipns_publish_record as ipnsPublishRecord,
-    get_ipns_records as getIPNSRecords
+    get_ipns_records as getIPNSRecords,
+    remove_ipns_record as removeIPNSRecord,
 )
 
 class Lighthouse:
@@ -100,11 +101,24 @@ class Lighthouse:
         """
         Retrieves all IPNS records associated with the current token.
 
-        return: list A list of IPNS records retrieved using the provided token.
+        :return: list A list of IPNS records retrieved using the provided token.
         """
 
         try:
             return getIPNSRecords.get_ipns_records(self.token)
+        except Exception as e:
+            raise e
+    
+    def removeKey(self, keyName: str):
+        """
+        Remove IPNS record of the given keyName
+
+        :param keyName: str, Name of the IPNS key to use
+        :return: dict, A dict of removed IPNS record.
+        """
+
+        try:
+            return removeIPNSRecord.remove_ipns_record(self.token, keyName)
         except Exception as e:
             raise e
 
