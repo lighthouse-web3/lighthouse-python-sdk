@@ -10,7 +10,8 @@ from .functions import (
     get_balance as getBalance,
     get_api_key as getApiKey,
     ipns_generate_key as ipnsGenerateKey,
-    ipns_publish_record as ipnsPublishRecord
+    ipns_publish_record as ipnsPublishRecord,
+    get_ipns_records as getIPNSRecords
 )
 
 class Lighthouse:
@@ -93,6 +94,17 @@ class Lighthouse:
         """
         try:
             return ipnsPublishRecord.ipns_publish_record(self.token, cid, keyName)
+        except Exception as e:
+            raise e
+    def getAllKeys(self):
+        """
+        Retrieves all IPNS records associated with the current token.
+
+        return: list A list of IPNS records retrieved using the provided token.
+        """
+
+        try:
+            return getIPNSRecords.get_ipns_records(self.token)
         except Exception as e:
             raise e
 
