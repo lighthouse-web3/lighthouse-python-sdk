@@ -68,8 +68,7 @@ class Lighthouse:
             return deal_status.get_deal_status(cid)
         except Exception as e:
             raise e
-
-    @staticmethod
+    
     def getUploads(self, lastKey: int = None):
         """
         Get uploads from the Lighthouse.
