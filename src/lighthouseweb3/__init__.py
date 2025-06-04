@@ -69,7 +69,7 @@ class Lighthouse:
         except Exception as e:
             raise e
     
-    def getUploads(self, lastKey: int = None):
+    def getUploads(self, lastKey: str = None):
         """
         Get uploads from the Lighthouse.
 

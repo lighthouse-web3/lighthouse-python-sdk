@@ -11,7 +11,7 @@ def bytes_to_size(bytes_size):
     return f"{round(bytes_size, 2)} {units[index]}"
 
 
-def get_uploads(token: str, lastKey: int = None) :
+def get_uploads(token: str, lastKey: str = None) :
     headers = {
         "Authorization": f"Bearer {token}",
     }
