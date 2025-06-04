@@ -11,10 +11,14 @@ def bytes_to_size(bytes_size):
     return f"{round(bytes_size, 2)} {units[index]}"
 
 
-def get_uploads(publicKey: str, pageNo: int = 1) :
+def get_uploads(token: str, lastKey: int = None) :
+    headers = {
+        "Authorization": f"Bearer {token}",
+    }
+
     try:
-        url = f"{Config.lighthouse_api}/api/user/files_uploaded?publicKey={publicKey}&pageNo={pageNo}"
-        response = requests.get(url)
+        url = f"{Config.lighthouse_api}/api/user/files_uploaded?lastKey={lastKey}"
+        response = requests.get(url, headers=headers)
         response.raise_for_status()
         return response.json()
     except requests.HTTPError as error:
