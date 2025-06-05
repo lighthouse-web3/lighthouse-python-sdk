@@ -2,7 +2,13 @@
 
 import os
 import io
-from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
+from .functions import (
+    upload as d,
+    deal_status, 
+    get_uploads as getUploads, 
+    download as _download,
+    get_api_key as getApiKey
+)
 
 
 class Lighthouse:
@@ -94,6 +100,22 @@ class Lighthouse:
         """
         try:
             return _download.get_file(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getApiKey(publicKey: str, signedMessage: str):
+        """
+        Generates and returns an API key for the given public key and signed message.
+
+        :param publicKey: str, The public key associated with the user.
+        :param signedMessage: str, The message signed by the user's private key.
+        :return: dict, A dict with generated API key.
+        """
+
+
+        try:
+            return getApiKey.get_api_key(publicKey, signedMessage)
         except Exception as e:
             raise e
 
