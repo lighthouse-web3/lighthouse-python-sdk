@@ -2,7 +2,13 @@
 
 import os
 import io
-from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
+from .functions import (
+    upload as d,
+    deal_status, 
+    get_uploads as getUploads, 
+    download as _download,
+    ipns_generate_key as ipnsGenerateKey
+)
 
 
 class Lighthouse:
@@ -39,6 +45,17 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+    def generateKey(self):
+        """
+        Generate a new IPNS key for the authenticated user.
+
+        :return: dict, The generated IPNS key information.
+        """
+        try:
+            return ipnsGenerateKey.ipns_generate_key(self.token)
+        except Exception as e:
+            raise e
+    
     @staticmethod
     def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
         """
