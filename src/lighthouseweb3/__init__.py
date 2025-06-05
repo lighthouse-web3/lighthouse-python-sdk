@@ -2,7 +2,16 @@
 
 import os
 import io
-from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
+from .functions import (
+    upload as d,
+    deal_status, 
+    get_uploads as getUploads, 
+    download as _download,
+    ipns_generate_key as ipnsGenerateKey,
+    ipns_publish_record as ipnsPublishRecord,
+    get_ipns_record as getIpnsRecord,
+    remove_ipns_record as removeIpnsRecord,
+)
 
 
 class Lighthouse:
@@ -36,6 +45,54 @@ class Lighthouse:
             raise TypeError("source must have 'read' and 'close' methods")
         try:
             return d.uploadBlob(source, filename, self.token, tag)
+        except Exception as e:
+            raise e
+    
+    def generateKey(self):
+        """
+        Generate a new IPNS key for the authenticated user.
+        :return: dict, The generated IPNS key information.
+        """
+        try:
+            return ipnsGenerateKey.ipns_generate_key(self.token)
+        except Exception as e:
+            raise e
+    
+    def publishRecord(self, cid: str, keyName: str):
+        """
+        Publish an IPNS record for a given CID and key name.
+
+        :param cid: str, Content Identifier to publish
+        :param keyName: str, Name of the IPNS key to use
+        :return: dict, The published IPNS record information
+        """
+        try:
+            return ipnsPublishRecord.ipns_publish_record(self.token, cid, keyName)
+        except Exception as e:
+            raise e
+    
+    def getAllKeys(self):
+        """
+        Retrieves all IPNS records associated with the current token.
+
+        return: list A list of IPNS records retrieved using the provided token.
+        """
+
+        try:
+            return getIpnsRecord.get_ipns_records(self.token)
+        except Exception as e:
+            raise e
+    
+    def removeKey(self, keyName: str):
+        """
+        Remove IPNS record of the given keyName
+
+        :param keyName: str, Name of the IPNS key to use
+        :return: dict, A dict of removed IPNS record.
+        """
+
+        try:
+            return removeIpnsRecord.remove_ipns_record(self.token, keyName)
         except Exception as e:
             raise e
 
