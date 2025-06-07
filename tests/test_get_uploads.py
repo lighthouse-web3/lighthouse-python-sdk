@@ -24,3 +24,11 @@ class TestGetUploads(unittest.TestCase):
         res = l.getUploads('b5f60ba0-b708-41a3-b0f2-5c808ce63b48')
         self.assertIsInstance(res.get("fileList"), list, "data is a list")
         self.assertIsInstance(res.get('totalFiles'), int, "totalFiles is an int")
+    
+    def test_get_upload_with_invalid_token(self):
+        """test get_upload function with invalid token"""
+        parse_env()
+        l = Lighthouse("invalid_token")
+        with self.assertRaises(Exception) as context:
+            l.getUploads()
+            self.assertIn("authentication failed", str(context.exception).lower())
