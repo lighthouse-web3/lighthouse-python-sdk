@@ -16,3 +16,13 @@ class TestIPNSGenerateKey(unittest.TestCase):
         self.assertIsInstance(res.get("data"), dict , "data is a dict")
         self.assertIsInstance(res.get("data").get("ipnsName"), str , "ipnsName is a str")
         self.assertIsInstance(res.get("data").get("ipnsId"), str , "ipnsId is a dict")
+    
+    def test_ipns_generate_key_invalid_token(self):
+        """test ipns_generate_key with invalid token"""
+        parse_env()
+        l = Lighthouse("invalid_token")
+        with self.assertRaises(Exception) as context:
+            l.generateKey()
+            self.assertIn("authentication failed", str(context.exception).lower())
+        
+    

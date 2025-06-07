@@ -19,3 +19,11 @@ class TestGetIPNSRecord(unittest.TestCase):
         self.assertIsInstance(res.get("data")[0].get("publicKey"), str , "publicKey is a str")
         self.assertIsInstance(res.get("data")[0].get("cid"), str , "cid is a str")
         self.assertIsInstance(res.get("data")[0].get("lastUpdate"), int , "lastUpdate is a int")
+    
+    def test_get_ipns_records_invalid_token(self):
+        """test get_ipns_records with invalid token"""
+        parse_env()
+        l = Lighthouse("invalid_token")
+        with self.assertRaises(Exception) as context:
+            l.generateKey()
+            self.assertIn("authentication failed", str(context.exception).lower())
