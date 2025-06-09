@@ -11,7 +11,16 @@ class TestGetBalance(unittest.TestCase):
         """test get_balance function"""
         parse_env()
         l = Lighthouse(os.environ.get("LIGHTHOUSE_TOKEN"))
-        res = l.getBalance("0x1FB9Be96d228De94F4C57962675433Ae55a6c4a5")
+        res = l.getBalance()
         self.assertIsInstance(res, dict, "data is a dict")
         self.assertIsInstance(res.get("dataLimit"), int, "data limit is a integer")
         self.assertIsInstance(res.get("dataUsed"), int, "data used is a integer")
+    
+    def test_get_balance_invalid_token(self):
+        """test get_balance function with invalid token"""
+        parse_env()
+        l = Lighthouse('invalid_token')
+        res = l.getBalance()
+        self.assertIsInstance(res, dict, "res is a dict")
+        self.assertIn("authentication failed", str(res).lower())
+

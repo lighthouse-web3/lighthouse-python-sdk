@@ -45,7 +45,7 @@ class Lighthouse:
         except Exception as e:
             raise e
     
-    def getBalance(self, publicKey: str):
+    def getBalance(self):
         """
         Retrieve the balance information of a user from the Lighthouse.
 
@@ -53,7 +53,7 @@ class Lighthouse:
         :return: dict[str, any], A dictionary containing the data usage and data limit details.
         """
         try:
-            return getBalance.get_balance(self.token, publicKey)
+            return getBalance.get_balance(self.token)
         except Exception as e:
             raise e
 
