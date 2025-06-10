@@ -2,7 +2,13 @@
 
 import os
 import io
-from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
+from .functions import ( 
+    upload as d,
+    deal_status, 
+    get_uploads as getUploads, 
+    download as _download,
+    create_wallet as createWallet
+)
 
 
 class Lighthouse:
@@ -39,6 +45,19 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+    @staticmethod
+    def createWallet(password: str):
+        """
+        Creates a new wallet using the provided password.
+
+        :param password: str, The password to secure the wallet.
+        :return: dict, The wallet encrypted with the passowrd
+        """
+        try:
+            return createWallet.create_wallet(password)
+        except Exception as e:
+            raise e
+        
     @staticmethod
     def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
         """
