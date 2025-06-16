@@ -15,7 +15,7 @@ class TestDealStatus(unittest.TestCase):
             "QmT9shXpKcn4HRbJhXJ1ZywzwjEo2QWbxAx4SVgW4eYKjG")
         self.assertIsInstance(res, list, "data is a list")
         self.assertIsInstance(res[0].get(
-            "dealId"), int, "dealId is Int")
+            "DealID"), int, "DealID is Int")
 
     def test_deal_status_init(self):
         """test deal_status function"""
@@ -25,4 +25,4 @@ class TestDealStatus(unittest.TestCase):
             "QmT9shXpKcn4HRbJhXJ1ZywzwjEo2QWbxAx4SVgW4eYKjG")
         self.assertIsInstance(res, list, "data is a list")
         self.assertIsInstance(res[0].get(
-            "dealId"), int, "dealId is Int")
+            "DealID"), int, "DealID is Int")

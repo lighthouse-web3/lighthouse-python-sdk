@@ -68,18 +68,16 @@ class Lighthouse:
             return deal_status.get_deal_status(cid)
         except Exception as e:
             raise e
-
-    @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1):
+    
+    def getUploads(self, lastKey: str = None):
         """
         Get uploads from the Lighthouse.
 
-        :param publicKey: str, public key
-        :param pageNo: int, page number (default: 1)
+        :param lastKey: To navigate to different pages of results
         :return: List[t.DealData], list of deal data
         """
         try:
-            return getUploads.get_uploads(publicKey, pageNo)
+            return getUploads.get_uploads(self.token, lastKey)
         except Exception as e:
             raise e
 
