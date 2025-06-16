@@ -2,7 +2,13 @@
 
 import os
 import io
-from .functions import upload as d,deal_status, get_uploads as getUploads, download as _download
+from .functions import (
+    upload as d,
+    deal_status, 
+    get_uploads as getUploads, 
+    download as _download,
+    get_file_info as getFileInfo
+)
 
 
 class Lighthouse:
@@ -92,6 +98,19 @@ class Lighthouse:
         """
         try:
             return _download.get_file(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getFileInfo(cid: str):
+        """
+        Retrieves information about a file using its CID (Content Identifier).
+        :param cid: str, Content Identifier for the data to be downloaded
+        returns: dict, A dictionary containing file information.
+        """
+
+        try:
+            return getFileInfo.get_file_info(cid)
         except Exception as e:
             raise e
 
