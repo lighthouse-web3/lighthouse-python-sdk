@@ -7,7 +7,8 @@ from .functions import (
     deal_status, 
     get_uploads as getUploads, 
     download as _download,
-    get_file_info as getFileInfo
+    get_file_info as getFileInfo,
+    get_balance as getBalance
 )
 
 
@@ -42,6 +43,17 @@ class Lighthouse:
             raise TypeError("source must have 'read' and 'close' methods")
         try:
             return d.uploadBlob(source, filename, self.token, tag)
+        except Exception as e:
+            raise e
+    
+    def getBalance(self):
+        """
+        Retrieve the balance information of a user from the Lighthouse.
+        :param publicKey: str, The public key of the user.
+        :return: dict[str, any], A dictionary containing the data usage and data limit details.
+        """
+        try:
+            return getBalance.get_balance(self.token)
         except Exception as e:
             raise e
 
