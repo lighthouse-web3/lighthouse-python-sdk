@@ -55,6 +55,7 @@ class Lighthouse:
     def getBalance(self):
         """
         Retrieve the balance information of a user from the Lighthouse.
+
         :param publicKey: str, The public key of the user.
         :return: dict[str, any], A dictionary containing the data usage and data limit details.
         """
@@ -66,6 +67,7 @@ class Lighthouse:
     def generateKey(self):
         """
         Generate a new IPNS key for the authenticated user.
+
         :return: dict, The generated IPNS key information.
         """
         try:
@@ -76,6 +78,7 @@ class Lighthouse:
     def publishRecord(self, cid: str, keyName: str):
         """
         Publish an IPNS record for a given CID and key name.
+
         :param cid: str, Content Identifier to publish
         :param keyName: str, Name of the IPNS key to use
         :return: dict, The published IPNS record information
@@ -88,7 +91,8 @@ class Lighthouse:
     def getAllKeys(self):
         """
         Retrieves all IPNS records associated with the current token.
-        return: list A list of IPNS records retrieved using the provided token.
+
+        :return: list A list of IPNS records retrieved using the provided token.
         """
 
         try:
@@ -99,6 +103,7 @@ class Lighthouse:
     def removeKey(self, keyName: str):
         """
         Remove IPNS record of the given keyName
+
         :param keyName: str, Name of the IPNS key to use
         :return: dict, A dict of removed IPNS record.
         """
@@ -112,6 +117,7 @@ class Lighthouse:
     def createWallet(password: str):
         """
         Creates a new wallet using the provided password.
+
         :param password: str, The password to secure the wallet.
         :return: dict, The wallet encrypted with the passowrd
         """
@@ -180,8 +186,9 @@ class Lighthouse:
     def getFileInfo(cid: str):
         """
         Retrieves information about a file using its CID (Content Identifier).
+
         :param cid: str, Content Identifier for the data to be downloaded
-        returns: dict, A dictionary containing file information.
+        :return: dict, A dictionary containing file information.
         """
 
         try:
@@ -193,6 +200,7 @@ class Lighthouse:
     def getApiKey(publicKey: str, signedMessage: str):
         """
         Generates and returns an API key for the given public key and signed message.
+
         :param publicKey: str, The public key associated with the user.
         :param signedMessage: str, The message signed by the user's private key.
         :return: dict, A dict with generated API key.
