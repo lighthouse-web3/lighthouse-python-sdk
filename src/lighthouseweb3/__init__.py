@@ -14,6 +14,7 @@ from .functions import (
     ipns_publish_record as ipnsPublishRecord,
     get_ipns_record as getIpnsRecord,
     remove_ipns_record as removeIpnsRecord,
+    create_wallet as createWallet
 )
 
 
@@ -104,6 +105,18 @@ class Lighthouse:
 
         try:
             return removeIpnsRecord.remove_ipns_record(self.token, keyName)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def createWallet(password: str):
+        """
+        Creates a new wallet using the provided password.
+        :param password: str, The password to secure the wallet.
+        :return: dict, The wallet encrypted with the passowrd
+        """
+        try:
+            return createWallet.create_wallet(password)
         except Exception as e:
             raise e
 
