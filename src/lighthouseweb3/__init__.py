@@ -7,10 +7,9 @@ from .functions import (
     deal_status, 
     get_uploads as getUploads, 
     download as _download,
-    ipns_generate_key as ipnsGenerateKey,
-    ipns_publish_record as ipnsPublishRecord,
-    get_ipns_record as getIpnsRecord,
-    remove_ipns_record as removeIpnsRecord,
+    get_file_info as getFileInfo,
+    get_balance as getBalance,
+    get_api_key as getApiKey
 )
 
 
@@ -48,51 +47,14 @@ class Lighthouse:
         except Exception as e:
             raise e
     
-    def generateKey(self):
+    def getBalance(self):
         """
-        Generate a new IPNS key for the authenticated user.
-        :return: dict, The generated IPNS key information.
-        """
-        try:
-            return ipnsGenerateKey.ipns_generate_key(self.token)
-        except Exception as e:
-            raise e
-    
-    def publishRecord(self, cid: str, keyName: str):
-        """
-        Publish an IPNS record for a given CID and key name.
-
-        :param cid: str, Content Identifier to publish
-        :param keyName: str, Name of the IPNS key to use
-        :return: dict, The published IPNS record information
+        Retrieve the balance information of a user from the Lighthouse.
+        :param publicKey: str, The public key of the user.
+        :return: dict[str, any], A dictionary containing the data usage and data limit details.
         """
         try:
-            return ipnsPublishRecord.ipns_publish_record(self.token, cid, keyName)
-        except Exception as e:
-            raise e
-    
-    def getAllKeys(self):
-        """
-        Retrieves all IPNS records associated with the current token.
-
-        return: list A list of IPNS records retrieved using the provided token.
-        """
-
-        try:
-            return getIpnsRecord.get_ipns_records(self.token)
-        except Exception as e:
-            raise e
-    
-    def removeKey(self, keyName: str):
-        """
-        Remove IPNS record of the given keyName
-
-        :param keyName: str, Name of the IPNS key to use
-        :return: dict, A dict of removed IPNS record.
-        """
-
-        try:
-            return removeIpnsRecord.remove_ipns_record(self.token, keyName)
+            return getBalance.get_balance(self.token)
         except Exception as e:
             raise e
 
@@ -125,18 +87,16 @@ class Lighthouse:
             return deal_status.get_deal_status(cid)
         except Exception as e:
             raise e
-
-    @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1):
+    
+    def getUploads(self, lastKey: str = None):
         """
         Get uploads from the Lighthouse.
 
-        :param publicKey: str, public key
-        :param pageNo: int, page number (default: 1)
+        :param lastKey: To navigate to different pages of results
         :return: List[t.DealData], list of deal data
         """
         try:
-            return getUploads.get_uploads(publicKey, pageNo)
+            return getUploads.get_uploads(self.token, lastKey)
         except Exception as e:
             raise e
 
@@ -151,6 +111,34 @@ class Lighthouse:
         """
         try:
             return _download.get_file(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getFileInfo(cid: str):
+        """
+        Retrieves information about a file using its CID (Content Identifier).
+        :param cid: str, Content Identifier for the data to be downloaded
+        returns: dict, A dictionary containing file information.
+        """
+
+        try:
+            return getFileInfo.get_file_info(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getApiKey(publicKey: str, signedMessage: str):
+        """
+        Generates and returns an API key for the given public key and signed message.
+        :param publicKey: str, The public key associated with the user.
+        :param signedMessage: str, The message signed by the user's private key.
+        :return: dict, A dict with generated API key.
+        """
+
+
+        try:
+            return getApiKey.get_api_key(publicKey, signedMessage)
         except Exception as e:
             raise e
 
