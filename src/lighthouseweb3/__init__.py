@@ -7,7 +7,8 @@ from .functions import (
     deal_status, 
     get_uploads as getUploads, 
     download as _download,
-    get_api_key as getApiKey
+    get_file_info as getFileInfo,
+    get_balance as getBalance
 )
 
 
@@ -44,6 +45,17 @@ class Lighthouse:
             return d.uploadBlob(source, filename, self.token, tag)
         except Exception as e:
             raise e
+    
+    def getBalance(self):
+        """
+        Retrieve the balance information of a user from the Lighthouse.
+        :param publicKey: str, The public key of the user.
+        :return: dict[str, any], A dictionary containing the data usage and data limit details.
+        """
+        try:
+            return getBalance.get_balance(self.token)
+        except Exception as e:
+            raise e
 
     @staticmethod
     def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
@@ -74,18 +86,16 @@ class Lighthouse:
             return deal_status.get_deal_status(cid)
         except Exception as e:
             raise e
-
-    @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1):
+    
+    def getUploads(self, lastKey: str = None):
         """
         Get uploads from the Lighthouse.
 
-        :param publicKey: str, public key
-        :param pageNo: int, page number (default: 1)
+        :param lastKey: To navigate to different pages of results
         :return: List[t.DealData], list of deal data
         """
         try:
-            return getUploads.get_uploads(publicKey, pageNo)
+            return getUploads.get_uploads(self.token, lastKey)
         except Exception as e:
             raise e
 
@@ -104,18 +114,15 @@ class Lighthouse:
             raise e
     
     @staticmethod
-    def getApiKey(publicKey: str, signedMessage: str):
+    def getFileInfo(cid: str):
         """
-        Generates and returns an API key for the given public key and signed message.
-
-        :param publicKey: str, The public key associated with the user.
-        :param signedMessage: str, The message signed by the user's private key.
-        :return: dict, A dict with generated API key.
+        Retrieves information about a file using its CID (Content Identifier).
+        :param cid: str, Content Identifier for the data to be downloaded
+        returns: dict, A dictionary containing file information.
         """
-
 
         try:
-            return getApiKey.get_api_key(publicKey, signedMessage)
+            return getFileInfo.get_file_info(cid)
         except Exception as e:
             raise e
 
