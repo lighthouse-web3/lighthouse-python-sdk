@@ -7,7 +7,7 @@ from .functions import (
     deal_status, 
     get_uploads as getUploads, 
     download as _download,
-    get_balance as getBalance
+    get_file_info as getFileInfo
 )
 
 
@@ -44,18 +44,6 @@ class Lighthouse:
             return d.uploadBlob(source, filename, self.token, tag)
         except Exception as e:
             raise e
-    
-    def getBalance(self):
-        """
-        Retrieve the balance information of a user from the Lighthouse.
-
-        :param publicKey: str, The public key of the user.
-        :return: dict[str, any], A dictionary containing the data usage and data limit details.
-        """
-        try:
-            return getBalance.get_balance(self.token)
-        except Exception as e:
-            raise e
 
     @staticmethod
     def downloadBlob(dist: io.BufferedWriter, cid: str, chunk_size=1024*1024*10):
@@ -86,18 +74,16 @@ class Lighthouse:
             return deal_status.get_deal_status(cid)
         except Exception as e:
             raise e
-
-    @staticmethod
-    def getUploads(publicKey: str, pageNo: int = 1):
+    
+    def getUploads(self, lastKey: str = None):
         """
         Get uploads from the Lighthouse.
 
-        :param publicKey: str, public key
-        :param pageNo: int, page number (default: 1)
+        :param lastKey: To navigate to different pages of results
         :return: List[t.DealData], list of deal data
         """
         try:
-            return getUploads.get_uploads(publicKey, pageNo)
+            return getUploads.get_uploads(self.token, lastKey)
         except Exception as e:
             raise e
 
@@ -112,6 +98,19 @@ class Lighthouse:
         """
         try:
             return _download.get_file(cid)
+        except Exception as e:
+            raise e
+    
+    @staticmethod
+    def getFileInfo(cid: str):
+        """
+        Retrieves information about a file using its CID (Content Identifier).
+        :param cid: str, Content Identifier for the data to be downloaded
+        returns: dict, A dictionary containing file information.
+        """
+
+        try:
+            return getFileInfo.get_file_info(cid)
         except Exception as e:
             raise e
 
