@@ -3,6 +3,8 @@
 import os
 import io
 from typing import Any, Dict
+
+from .functions.encryption import shared_key as sharedKey
 from .functions import (
     upload as d,
     deal_status, 
@@ -15,8 +17,7 @@ from .functions import (
     ipns_publish_record as ipnsPublishRecord,
     get_ipns_record as getIpnsRecord,
     remove_ipns_record as removeIpnsRecord,
-    create_wallet as createWallet,
-    kavach_shared_key as sharedKey
+    create_wallet as createWallet
 )
 
 
