@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Any, Dict, List
+
+from .functions.encryption import save_shards as saveShards
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,29 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def saveShards(
+        address: str,
+        cid: str,
+        auth_token: str, 
+        key_shards: List[dict],
+        share_to: List[str] = None
+    ) -> Dict[str, Any]:
+        """
+        Save key shards to multiple nodes.
+
+        
+        :param address: str, The Ethereum address of the user.
+        :param cid: str, The Content Identifier (CID) of the file for which key shards are being saved.
+        :param auth_token: str, The authentication token obtained by signing a message.
+        :param key_shards: List[KeyShard], A list of KeyShard objects, each containing a key and its index.
+        :param share_to: List[str], optional, A list of Ethereum addresses to which the key shards should be shared. Defaults to None.
+        :return: Dict[str, Any], A dictionary indicating the success or failure of the operation, along with any error messages.
+        """
+
+        try:
+            return saveShards.save_shards(address, cid, auth_token, key_shards, share_to)
+        except Exception as e:
+            raise e
