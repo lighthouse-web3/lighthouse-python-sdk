@@ -2,6 +2,9 @@
 
 import os
 import io
+
+from .functions.encryption import get_access_condition as getAccessCondition
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -221,6 +224,22 @@ class Lighthouse:
         """
         try:
             return _download.getTaggedCid(tag, self.token)
+        except Exception as e:
+            raise e
+
+
+class Kavach:
+    @staticmethod
+    def getAccessCondition(cid: str):
+        """
+        Get Access Condition for cid from the node
+
+        :param cid: str, Content Identifier for the data to be downloaded
+        :return: conditions dict of access conditions
+        """
+
+        try:
+            return getAccessCondition.get_access_condition(cid)
         except Exception as e:
             raise e
 
