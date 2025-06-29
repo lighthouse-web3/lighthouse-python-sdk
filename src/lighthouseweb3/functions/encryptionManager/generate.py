@@ -80,8 +80,3 @@ async def generate(threshold: int = 3, key_count: int = 5) -> Dict[str, Any]:
         "keyShards": [{"key": hex(secVec[i]), "index": hex(idVec[i])} for i in range(key_count)]
     }
     return result
-
-if __name__ == "__main__":
-    import asyncio
-    result = asyncio.run(generate(threshold=1, key_count=1))
-    print(result)
