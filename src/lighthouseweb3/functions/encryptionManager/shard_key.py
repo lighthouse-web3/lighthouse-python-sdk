@@ -1,7 +1,7 @@
 import secrets
 import logging
 from typing import Dict, List, Any
-from config import PRIME
+from .config import PRIME
 logger = logging.getLogger(__name__)
 
 
@@ -37,6 +37,8 @@ def validate_key(key: str) -> bool:
     Validate that the given key is a valid 32-byte (64 hex char) string.
     """
     try:
+        if key.startswith('0x'):
+            key = key[2:]
         bytes.fromhex(key)
         return len(key) == 64
     except ValueError:
@@ -66,6 +68,8 @@ async def shard_key(key: str, threshold: int = 3, key_count: int = 5) -> Dict[st
 
     if not validate_key(key):
         raise ValueError("Invalid key format: must be a valid hex string")
+
+    key = int(key, 16)
 
     try:
         msk=[]

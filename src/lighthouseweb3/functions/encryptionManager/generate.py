@@ -1,7 +1,7 @@
 import secrets
 import logging
 from typing import Dict, List, Any
-from shard_key import shard_key 
+from .shard_key import shard_key 
 logger = logging.getLogger(__name__)
 
 async def generate(threshold: int = 3, key_count: int = 5) -> Dict[str, Any]:
@@ -26,14 +26,14 @@ async def generate(threshold: int = 3, key_count: int = 5) -> Dict[str, Any]:
     logger.info(f"Generating key shards with threshold={threshold}, key_count={key_count}")
 
     try:
-        master_key = secrets.randbits(256)
+        master_key = hex(secrets.randbits(256))
         result = await shard_key(master_key, threshold, key_count)
 
         if not result['isShardable']:
             raise ValueError(result['error'])
 
         return {
-            "masterKey": hex(master_key),
+            "masterKey": master_key,
             "keyShards": result['keyShards']
         }
 
