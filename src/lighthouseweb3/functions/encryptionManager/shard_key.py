@@ -64,6 +64,9 @@ async def shard_key(key: str, threshold: int = 3, key_count: int = 5) -> Dict[st
     """
     logger.info(f"Generating key shards with threshold={threshold}, key_count={key_count}")
 
+    if not validate_key(key):
+        raise ValueError("Invalid key format: must be a valid hex string")
+
     try:
         msk=[]
         idVec=[]

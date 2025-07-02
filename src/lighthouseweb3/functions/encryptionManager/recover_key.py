@@ -112,19 +112,26 @@ def validate_share(share: Dict[str, str], index: int) -> Tuple[str, str]:
         key_str = key_str[2:]
     if index_str.startswith('0x'):
         index_str = index_str[2:]
-        
     
     if not key_str:
         raise ValueError(f"Empty key in share at index {index}")
-    if not all(c in '0123456789abcdef' for c in key_str):
-        raise ValueError(f"Invalid key format in share at index {index}: must be a valid hex string")
+    if not index_str:
+        raise ValueError(f"Empty index in share at index {index}")
     
     if len(key_str) % 2 != 0:
         key_str = '0' + key_str
-        
-    if not index_str:
-        raise ValueError(f"Empty index in share at index {index}")
-    if not all(c in '0123456789abcdef' for c in index_str):
+    
+    if len(index_str) % 2 != 0:
+        index_str = '0' + index_str
+    
+    try:
+        bytes.fromhex(key_str)
+    except ValueError:
+        raise ValueError(f"Invalid key format in share at index {index}: must be a valid hex string")
+    
+    try:
+        bytes.fromhex(index_str)
+    except ValueError:
         raise ValueError(f"Invalid index format in share at index {index}: must be a valid hex string")
     
     index_int = int(index_str, 16)
