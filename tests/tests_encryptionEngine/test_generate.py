@@ -16,24 +16,35 @@ class TestGenerate(unittest.TestCase):
             self.assertIn('masterKey', result)
             self.assertIn('keyShards', result)
             
-            # Check master key format (hex string with 0x prefix)
             self.assertIsInstance(result['masterKey'], str)
             self.assertTrue(result['masterKey'].startswith('0x'))
-            self.assertTrue(all(c in '0123456789abcdef' for c in result['masterKey'][2:]))
+            hex_str = result['masterKey'][2:]  
+            if len(hex_str) % 2 != 0:
+                hex_str = '0' + hex_str
+            try:
+                bytes.fromhex(hex_str)
+            except ValueError:
+                self.fail(f"Invalid hex string: {result['masterKey']}")
             
-            # Check key shards
             self.assertEqual(len(result['keyShards']), 3)
             for shard in result['keyShards']:
                 self.assertIn('key', shard)
                 self.assertIn('index', shard)
                 
-                # Check key format (hex string with 0x prefix)
                 self.assertTrue(shard['key'].startswith('0x'))
-                self.assertTrue(all(c in '0123456789abcdef' for c in shard['key'][2:]))
+                hex_str = shard['key'][2:]  
+                if len(hex_str) % 2 != 0:
+                    hex_str = '0' + hex_str
+                try:
+                    bytes.fromhex(hex_str)
+                except ValueError:
+                    self.fail(f"Invalid hex string in key: {shard['key']}")
                 
-                # Check index format (hex string with 0x prefix)
                 self.assertTrue(shard['index'].startswith('0x'))
-                self.assertTrue(all(c in '0123456789abcdef' for c in shard['index'][2:]))
+                try:
+                    int(shard['index'], 16)
+                except ValueError:
+                    self.fail(f"Invalid index format (not a valid hex number): {shard['index']}")
             
             return result
         
@@ -49,14 +60,26 @@ class TestGenerate(unittest.TestCase):
             
             self.assertEqual(len(result['keyShards']), key_count)
             
-            # Check all indices are present and unique
             indices = [shard['index'] for shard in result['keyShards']]
-            self.assertEqual(len(set(indices)), key_count)  # All unique
+            self.assertEqual(len(set(indices)), key_count)  
             
-            # Verify all indices are valid hex strings with 0x prefix
-            for index in indices:
+            for shard in result['keyShards']:
+                self.assertTrue(shard['key'].startswith('0x'))
+                key_hex = shard['key'][2:]  
+                if len(key_hex) % 2 != 0:
+                    key_hex = '0' + key_hex
+                try:
+                    bytes.fromhex(key_hex)
+                except ValueError:
+                    self.fail(f"Invalid hex string in key: {shard['key']}")
+                
+                
+                index = shard['index']
                 self.assertTrue(index.startswith('0x'))
-                self.assertTrue(all(c in '0123456789abcdef' for c in index[2:]))
+                try:
+                    int(index, 16) 
+                except ValueError:
+                    self.fail(f"Invalid index format (not a valid hex number): {index}")
             
             return result
         

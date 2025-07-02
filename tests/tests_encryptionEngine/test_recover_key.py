@@ -29,6 +29,25 @@ class TestRecoverKey(unittest.TestCase):
             
             shares = gen_result['keyShards'][:threshold]
             result = await EncryptionManager.recoverKey(shares)
+            self.assertTrue(result['masterKey'].startswith('0x'))
+            try:
+                bytes.fromhex(result['masterKey'][2:])
+            except ValueError:
+                self.fail(f"Invalid hex string in master key: {result['masterKey']}")
+            
+            for shard in shares:
+                self.assertTrue(shard['key'].startswith('0x'))
+                try:
+                    bytes.fromhex(shard['key'][2:])
+                except ValueError:
+                    self.fail(f"Invalid hex string in key: {shard['key']}")
+                
+                self.assertTrue(shard['index'].startswith('0x'))
+                try:
+                    bytes.fromhex(shard['index'][2:])
+                except ValueError:
+                    self.fail(f"Invalid hex string in index: {shard['index']}")
+            
             self.assertEqual(result['masterKey'], master_key)
             self.assertIsNone(result['error'])
            
@@ -67,12 +86,10 @@ class TestRecoverKey(unittest.TestCase):
             key_count = 5
             gen_result = await EncryptionManager.generate(threshold=threshold, keyCount=key_count)
             
-            # Test with one less than threshold (should still work as long as we have at least 2 shares)
             result = await EncryptionManager.recoverKey(gen_result['keyShards'][:threshold-1])
             self.assertIsNotNone(result['masterKey'])
             self.assertIsNone(result['error'])
             
-            # Test with single share (should still work as long as we have at least 1 share)
             result = await EncryptionManager.recoverKey(gen_result['keyShards'][:1])
             self.assertIsNotNone(result['masterKey'])
             self.assertIsNone(result['error'])
@@ -137,6 +154,11 @@ class TestRecoverKey(unittest.TestCase):
                 {'key': 'a' * 63, 'index': 'invalidindex'},
                 {'key': 'b' * 63, 'index': 'invalidindex2'}
             ])
+            self.assertTrue(result['masterKey'].startswith('0x'))
+            try:
+                bytes.fromhex(result['masterKey'][2:])
+            except ValueError:
+                self.fail(f"Invalid hex string in master key: {result['masterKey']}")
             self.assertIsNone(result['masterKey'])
             self.assertIn("invalid index format", result['error'].lower())
         
