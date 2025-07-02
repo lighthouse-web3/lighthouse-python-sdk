@@ -19,7 +19,8 @@ from .functions import (
 )
 from .functions.encryptionManager import (
     generate,
-    recover_key as recoverKey
+    recover_key as recoverKey,
+    shard_key as shardKey
 )
 
 class Lighthouse:
@@ -241,6 +242,13 @@ class EncryptionManager:
     def recoverKey(keyShards: List[Dict[str, Any]]):
         try:
             return recoverKey.recover_key(keyShards)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def shardKey(masterKey: int, threshold: int, keyCount: int):
+        try:
+            return shardKey.shard_key(masterKey, threshold, keyCount)
         except Exception as e:
             raise e
         
