@@ -134,7 +134,7 @@ def validate_share(share: Dict[str, str], index: int) -> Tuple[str, str]:
     return key_str, index_str
 
 
-async def recoverKey(keyShards: List[Dict[str, str]]) -> Dict[str, Any]:
+async def recover_key(keyShards: List[Dict[str, str]]) -> Dict[str, Any]:
     """
     Recover the master key from a subset of key shares using Lagrange interpolation.
     

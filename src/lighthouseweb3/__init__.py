@@ -17,7 +17,10 @@ from .functions import (
     remove_ipns_record as removeIpnsRecord,
     create_wallet as createWallet
 )
-from .functions.encryptionManager import generate, recoverKey
+from .functions.encryptionManager import (
+    generate,
+    recover_key as recoverKey
+)
 
 class Lighthouse:
     def __init__(self, token: str = ""):
@@ -237,7 +240,7 @@ class EncryptionManager:
     @staticmethod
     def recoverKey(keyShards: List[Dict[str, Any]]):
         try:
-            return recoverKey.recoverKey(keyShards)
+            return recoverKey.recover_key(keyShards)
         except Exception as e:
             raise e
         
