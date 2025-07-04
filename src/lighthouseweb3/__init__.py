@@ -2,6 +2,12 @@
 
 import os
 import io
+from typing import Any
+
+from .functions.encryption import (
+    transfer_ownership as transferOwnership
+)
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +230,21 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def transferOwnership(address: str, cid: str, new_owner: str, auth_token: str, reset_shared_to: bool = True) -> dict[str, Any]:
+        """
+        Transfer ownership of a file from the current owner to a new owner.
+
+        :param address: str, The address of the current owner.
+        :param cid: str, The Content Identifier (CID) of the file to transfer.
+        :param new_owner: str, The address of the new owner.
+        :param auth_token: str, The authentication token for the current owner.
+        :param reset_shared_to: bool, Whether to reset the list of users the file is shared with (default: True).
+        :return: dict, A dictionary indicating the success or failure of the operation.
+        """
+        try:
+            return transferOwnership.transfer_ownership(address, cid, new_owner, auth_token, reset_shared_to)
+        except Exception as e:
+            raise e
