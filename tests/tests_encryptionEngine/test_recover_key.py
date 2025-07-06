@@ -12,7 +12,7 @@ class TestRecoverKey(unittest.TestCase):
         """Test that recovery fails with empty shares list."""
         async def run_test():
             result = await EncryptionManager.recoverKey([])
-            self.assertEqual(result['masterKey'], '0x0')
+            self.assertEqual(result['masterKey'], '0x0000000000000000000000000000000000000000000000000000000000000000')
             self.assertIsNone(result['error'])
         
         return asyncio.run(run_test())

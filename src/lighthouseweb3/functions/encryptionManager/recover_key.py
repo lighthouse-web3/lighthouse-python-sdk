@@ -159,8 +159,9 @@ async def recover_key(keyShards: List[Dict[str, str]]) -> Dict[str, Any]:
         for i, share in enumerate(keyShards):
             validate_share(share, i)
         secret = lagrange_interpolation(keyShards, PRIME)
+        master_key = f"0x{secret:064x}"
         return {
-            "masterKey": hex(secret),
+            "masterKey": master_key,
             "error": None
         }
     except ValueError as e:
