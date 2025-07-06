@@ -88,7 +88,6 @@ class TestRecoverKey(unittest.TestCase):
                 (4, 7),  
                 (3, 10), 
             ]
-            
             for threshold, total in test_cases:
                 with self.subTest(threshold=threshold, total=total):
                     gen_result = await EncryptionManager.generate(
@@ -113,8 +112,8 @@ class TestRecoverKey(unittest.TestCase):
                     self.assertIsNone(result['error'])
         
         return asyncio.run(run_test())
-            
-    
+
+
     def test_invalid_share_format(self):
         """Test that invalid share formats are handled correctly."""
         async def run_test():

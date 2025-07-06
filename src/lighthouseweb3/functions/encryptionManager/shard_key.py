@@ -80,8 +80,6 @@ async def shard_key(key: str, threshold: int = 3, key_count: int = 5) -> Dict[st
             raise ValueError("key_count must be greater than or equal to threshold")
         if threshold < 1 or key_count < 1:
             raise ValueError("threshold and key_count must be positive integers")
-
-
         msk.append(key)
 
         used_ids = set()
