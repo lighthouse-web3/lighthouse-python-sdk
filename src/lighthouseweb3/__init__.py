@@ -17,7 +17,7 @@ from .functions import (
     remove_ipns_record as removeIpnsRecord,
     create_wallet as createWallet
 )
-from .functions.encryptionManager import (
+from .functions.kavach import (
     generate,
     recover_key as recoverKey
 )
@@ -228,7 +228,7 @@ class Lighthouse:
         except Exception as e:
             raise e
 
-class EncryptionManager:
+class Kavach:
     @staticmethod
     def generate(threshold: int, keyCount: int):
         try:
