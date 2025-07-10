@@ -2,6 +2,7 @@
 
 import os
 import io
+from typing import List, Dict, Any
 from .functions import (
     upload as d,
     deal_status, 
@@ -16,7 +17,11 @@ from .functions import (
     remove_ipns_record as removeIpnsRecord,
     create_wallet as createWallet
 )
-
+from .functions.kavach import (
+    generate,
+    recover_key as recoverKey,
+    shard_key as shardKey
+)
 
 class Lighthouse:
     def __init__(self, token: str = ""):
@@ -224,3 +229,26 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+class Kavach:
+    @staticmethod
+    def generate(threshold: int, keyCount: int):
+        try:
+            return generate.generate(threshold, keyCount)
+        except Exception as e:
+            raise e
+    
+
+    @staticmethod
+    def recoverKey(keyShards: List[Dict[str, Any]]):
+        try:
+            return recoverKey.recover_key(keyShards)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def shardKey(masterKey: int, threshold: int, keyCount: int):
+        try:
+            return shardKey.shard_key(masterKey, threshold, keyCount)
+        except Exception as e:
+            raise e
+        
