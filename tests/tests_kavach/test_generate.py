@@ -1,7 +1,7 @@
 import unittest
 import asyncio
 import logging
-from src.lighthouseweb3 import EncryptionManager
+from src.lighthouseweb3 import Kavach
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,7 @@ class TestGenerate(unittest.TestCase):
     def test_generate_basic(self):
         """Test basic key generation with default parameters."""
         async def run_test():
-            result = await EncryptionManager.generate(threshold=2, keyCount=3)
+            result = await Kavach.generate(threshold=2, keyCount=3)
             
             self.assertIn('masterKey', result)
             self.assertIn('keyShards', result)
@@ -45,7 +45,7 @@ class TestGenerate(unittest.TestCase):
             threshold = 3
             key_count = 5
             
-            result = await EncryptionManager.generate(threshold=threshold, keyCount=key_count)
+            result = await Kavach.generate(threshold=threshold, keyCount=key_count)
             
             self.assertEqual(len(result['keyShards']), key_count)
             
@@ -66,11 +66,11 @@ class TestGenerate(unittest.TestCase):
         """Test that invalid threshold raises an error."""
         async def run_test():
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.generate(threshold=0, keyCount=3)
+                await Kavach.generate(threshold=0, keyCount=3)
             self.assertIn("must be positive integers", str(context.exception))
             
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.generate(threshold=4, keyCount=3)
+                await Kavach.generate(threshold=4, keyCount=3)
             self.assertIn("must be greater than or equal to threshold", str(context.exception))
         
         return asyncio.run(run_test())

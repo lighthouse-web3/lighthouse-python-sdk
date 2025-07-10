@@ -1,7 +1,7 @@
 import unittest
 import asyncio
 import logging
-from src.lighthouseweb3 import EncryptionManager
+from src.lighthouseweb3 import Kavach
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,7 @@ class TestShardKey(unittest.TestCase):
         """Test shardKey with valid 32-byte keys."""
         async def run_test():
             valid_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
-            result = await EncryptionManager.shardKey(valid_key, threshold=2, keyCount=3)
+            result = await Kavach.shardKey(valid_key, threshold=2, keyCount=3)
             
             self.assertTrue(result['isShardable'])
             self.assertIn('keyShards', result)
@@ -27,7 +27,7 @@ class TestShardKey(unittest.TestCase):
                 self.assertTrue(all(c in '0123456789abcdef' for c in shard['index'][2:]))
             
             valid_key_with_prefix = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
-            result2 = await EncryptionManager.shardKey(valid_key_with_prefix, threshold=2, keyCount=3)
+            result2 = await Kavach.shardKey(valid_key_with_prefix, threshold=2, keyCount=3)
             
             self.assertTrue(result2['isShardable'])
             self.assertEqual(len(result2['keyShards']), 3)
@@ -41,26 +41,26 @@ class TestShardKey(unittest.TestCase):
         async def run_test():
             short_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd"
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.shardKey(short_key, threshold=2, keyCount=3)
+                await Kavach.shardKey(short_key, threshold=2, keyCount=3)
             self.assertIn("Invalid key format", str(context.exception))
             
             long_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12"
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.shardKey(long_key, threshold=2, keyCount=3)
+                await Kavach.shardKey(long_key, threshold=2, keyCount=3)
             self.assertIn("Invalid key format", str(context.exception))
             
             malformed_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdefg"
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.shardKey(malformed_key, threshold=2, keyCount=3)
+                await Kavach.shardKey(malformed_key, threshold=2, keyCount=3)
             self.assertIn("Invalid key format", str(context.exception))
             
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.shardKey("", threshold=2, keyCount=3)
+                await Kavach.shardKey("", threshold=2, keyCount=3)
             self.assertIn("Invalid key format", str(context.exception))
             
             invalid_hex = "xyz4567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
             with self.assertRaises(ValueError) as context:
-                await EncryptionManager.shardKey(invalid_hex, threshold=2, keyCount=3)
+                await Kavach.shardKey(invalid_hex, threshold=2, keyCount=3)
             self.assertIn("Invalid key format", str(context.exception))
             
         return asyncio.run(run_test())
@@ -70,23 +70,23 @@ class TestShardKey(unittest.TestCase):
         async def run_test():
             valid_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
             
-            result1 = await EncryptionManager.shardKey(valid_key, threshold=1, keyCount=1)
+            result1 = await Kavach.shardKey(valid_key, threshold=1, keyCount=1)
             self.assertTrue(result1['isShardable'])
             self.assertEqual(len(result1['keyShards']), 1)
             
-            result2 = await EncryptionManager.shardKey(valid_key, threshold=2, keyCount=3)
+            result2 = await Kavach.shardKey(valid_key, threshold=2, keyCount=3)
             self.assertTrue(result2['isShardable'])
             self.assertEqual(len(result2['keyShards']), 3)
             
-            result3 = await EncryptionManager.shardKey(valid_key, threshold=3, keyCount=5)
+            result3 = await Kavach.shardKey(valid_key, threshold=3, keyCount=5)
             self.assertTrue(result3['isShardable'])
             self.assertEqual(len(result3['keyShards']), 5)
             
-            result4 = await EncryptionManager.shardKey(valid_key, threshold=4, keyCount=4)
+            result4 = await Kavach.shardKey(valid_key, threshold=4, keyCount=4)
             self.assertTrue(result4['isShardable'])
             self.assertEqual(len(result4['keyShards']), 4)
             
-            result5 = await EncryptionManager.shardKey(valid_key, threshold=5, keyCount=10)
+            result5 = await Kavach.shardKey(valid_key, threshold=5, keyCount=10)
             self.assertTrue(result5['isShardable'])
             self.assertEqual(len(result5['keyShards']), 10)
             
@@ -104,7 +104,7 @@ class TestShardKey(unittest.TestCase):
             valid_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
             
 
-            result = await EncryptionManager.shardKey(valid_key, threshold=3, keyCount=20)
+            result = await Kavach.shardKey(valid_key, threshold=3, keyCount=20)
             
             self.assertTrue(result['isShardable'])
             self.assertEqual(len(result['keyShards']), 20)
@@ -126,7 +126,7 @@ class TestShardKey(unittest.TestCase):
         async def run_test():
             valid_key = "1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
             
-            result = await EncryptionManager.shardKey(valid_key, threshold=2, keyCount=4)
+            result = await Kavach.shardKey(valid_key, threshold=2, keyCount=4)
             
             self.assertTrue(result['isShardable'])
             

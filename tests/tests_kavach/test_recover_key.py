@@ -1,7 +1,7 @@
 import unittest
 import asyncio
 import logging
-from src.lighthouseweb3 import EncryptionManager
+from src.lighthouseweb3 import Kavach
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +11,7 @@ class TestRecoverKey(unittest.TestCase):
     def test_empty_shares_list(self):
         """Test that recovery fails with empty shares list."""
         async def run_test():
-            result = await EncryptionManager.recoverKey([])
+            result = await Kavach.recoverKey([])
             self.assertEqual(result['masterKey'], '0x0000000000000000000000000000000000000000000000000000000000000000')
             self.assertIsNone(result['error'])
         
@@ -24,17 +24,17 @@ class TestRecoverKey(unittest.TestCase):
            
             threshold = 3
             key_count = 5
-            gen_result = await EncryptionManager.generate(threshold=threshold, keyCount=key_count)
+            gen_result = await Kavach.generate(threshold=threshold, keyCount=key_count)
             master_key = gen_result['masterKey']
             
             shares = gen_result['keyShards'][:threshold]
-            result = await EncryptionManager.recoverKey(shares)
+            result = await Kavach.recoverKey(shares)
             self.assertEqual(result['masterKey'], master_key)
             self.assertIsNone(result['error'])
            
             for i in range(key_count - threshold + 1):
                 subset = gen_result['keyShards'][i:i+threshold]
-                result = await EncryptionManager.recoverKey(subset)
+                result = await Kavach.recoverKey(subset)
                 self.assertEqual(result['masterKey'], master_key)
                 self.assertIsNone(result['error'])
             
@@ -47,14 +47,14 @@ class TestRecoverKey(unittest.TestCase):
         async def run_test():
             threshold = 2
             key_count = 5
-            gen_result = await EncryptionManager.generate(threshold=threshold, keyCount=key_count)
+            gen_result = await Kavach.generate(threshold=threshold, keyCount=key_count)
             master_key = gen_result['masterKey']
             shares = gen_result['keyShards'][:threshold]
-            result = await EncryptionManager.recoverKey(shares)
+            result = await Kavach.recoverKey(shares)
             self.assertEqual(result['masterKey'], master_key)
             self.assertIsNone(result['error'])
             
-            result = await EncryptionManager.recoverKey(gen_result['keyShards'])
+            result = await Kavach.recoverKey(gen_result['keyShards'])
             self.assertEqual(result['masterKey'], master_key)
             self.assertIsNone(result['error'])
         
@@ -65,15 +65,15 @@ class TestRecoverKey(unittest.TestCase):
         async def run_test():
             threshold = 3
             key_count = 5
-            gen_result = await EncryptionManager.generate(threshold=threshold, keyCount=key_count)
+            gen_result = await Kavach.generate(threshold=threshold, keyCount=key_count)
             
             # Test with one less than threshold (should still work as long as we have at least 2 shares)
-            result = await EncryptionManager.recoverKey(gen_result['keyShards'][:threshold-1])
+            result = await Kavach.recoverKey(gen_result['keyShards'][:threshold-1])
             self.assertIsNotNone(result['masterKey'])
             self.assertIsNone(result['error'])
             
             # Test with single share (should still work as long as we have at least 1 share)
-            result = await EncryptionManager.recoverKey(gen_result['keyShards'][:1])
+            result = await Kavach.recoverKey(gen_result['keyShards'][:1])
             self.assertIsNotNone(result['masterKey'])
             self.assertIsNone(result['error'])
         
@@ -90,24 +90,24 @@ class TestRecoverKey(unittest.TestCase):
             ]
             for threshold, total in test_cases:
                 with self.subTest(threshold=threshold, total=total):
-                    gen_result = await EncryptionManager.generate(
+                    gen_result = await Kavach.generate(
                         threshold=threshold, 
                         keyCount=total
                     )
                     master_key = gen_result['masterKey']
                     
                     shares = gen_result['keyShards'][:threshold]
-                    result = await EncryptionManager.recoverKey(shares)
+                    result = await Kavach.recoverKey(shares)
                     self.assertEqual(result['masterKey'], master_key)
                     self.assertIsNone(result['error'])
                     
-                    result = await EncryptionManager.recoverKey(gen_result['keyShards'])
+                    result = await Kavach.recoverKey(gen_result['keyShards'])
                     self.assertEqual(result['masterKey'], master_key)
                     self.assertIsNone(result['error'])
                     
                     import random
                     subset = random.sample(gen_result['keyShards'], threshold + 1)
-                    result = await EncryptionManager.recoverKey(subset)
+                    result = await Kavach.recoverKey(subset)
                     self.assertEqual(result['masterKey'], master_key)
                     self.assertIsNone(result['error'])
         
@@ -117,22 +117,22 @@ class TestRecoverKey(unittest.TestCase):
     def test_invalid_share_format(self):
         """Test that invalid share formats are handled correctly."""
         async def run_test():
-            result = await EncryptionManager.recoverKey(["not a dict", "another invalid"])
+            result = await Kavach.recoverKey(["not a dict", "another invalid"])
             self.assertIsNone(result['masterKey'])
             self.assertIn("must be a dictionary", result['error'])
             
-            result = await EncryptionManager.recoverKey([{'key': '123'}, {'key': '456'}])
+            result = await Kavach.recoverKey([{'key': '123'}, {'key': '456'}])
             self.assertIsNone(result['masterKey'])
             self.assertIn("missing required fields 'key' or 'index'", result['error'].lower())
             
-            result = await EncryptionManager.recoverKey([
+            result = await Kavach.recoverKey([
                 {'key': 'invalidhex', 'index': '1'},
                 {'key': 'invalidhex2', 'index': '2'}
             ])
             self.assertIsNone(result['masterKey'])
             self.assertIn("invalid key format", result['error'].lower())
             
-            result = await EncryptionManager.recoverKey([
+            result = await Kavach.recoverKey([
                 {'key': 'a' * 63, 'index': 'invalidindex'},
                 {'key': 'b' * 63, 'index': 'invalidindex2'}
             ])
