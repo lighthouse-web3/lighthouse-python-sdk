@@ -13,11 +13,7 @@ class TestAccessControl(unittest.IsolatedAsyncioTestCase):
    """Test cases for the access control module."""
   
    def setUp(self):
-       # Use the private key that corresponds to the CID owner address
-       # The CID QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH is owned by 0xf0bc72fa04aea04d04b1fa80b359adb566e1c8b1
-       # We'll use a placeholder private key since we don't have the actual one
        self.private_key = "0x8218aa5dbf4dbec243142286b93e26af521b3e91219583595a06a7765abc9c8b"
-       # Use the actual owner address from the API response
        self.signer_address = Web3().eth.account.from_key(self.private_key).address
   
    async def test_invalid_condition(self):
