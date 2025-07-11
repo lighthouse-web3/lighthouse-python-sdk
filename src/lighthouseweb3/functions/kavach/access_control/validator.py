@@ -175,7 +175,7 @@ class CoreumCondition(BaseModel):
     def validate_parameters(cls, v, values):
         if 'standard_contract_type' in values and values['standard_contract_type'] != "":
             if not v:
-                raise ValueError('parameters is required when standardContractType is not empty')
+                raise ValueError('parameters is required when standard_contract_type is not empty')
         return v
 
     class Config:
@@ -222,7 +222,7 @@ class UpdateConditionSchema(BaseModel):
                 raise ValueError('aggregator must contain " and " or " or "')
         return v
 
-    @root_validator
+    @root_validator(skip_on_failure=True)
     def validate_condition_types(cls, values):
         chain_type = values.get('chain_type', ChainType.EVM)
         conditions = values.get('conditions', [])
@@ -268,7 +268,7 @@ class AccessConditionSchema(BaseModel):
                 raise ValueError('aggregator must contain " and " or " or "')
         return v
 
-    @root_validator
+    @root_validator(skip_on_failure=True)
     def validate_condition_types(cls, values):
         chain_type = values.get('chain_type', ChainType.EVM)
         conditions = values.get('conditions', [])

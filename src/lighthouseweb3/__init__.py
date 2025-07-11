@@ -2,7 +2,7 @@
 
 import os
 import io
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from .functions import (
     upload as d,
     deal_status, 
@@ -20,8 +20,12 @@ from .functions import (
 from .functions.kavach import (
     generate,
     recover_key as recoverKey,
-    shard_key as shardKey
+    shard_key as shardKey,
+    get_auth_message as getAuthMessage,
+    types as kavach_types
 )
+from .functions.kavach.access_control import main as accessControl
+from .functions.kavach.types import AuthToken, Condition, ChainType, DecryptionType, KeyShard
 
 class Lighthouse:
     def __init__(self, token: str = ""):
@@ -251,4 +255,23 @@ class Kavach:
             return shardKey.shard_key(masterKey, threshold, keyCount)
         except Exception as e:
             raise e
-        
+            
+    @staticmethod
+    def accessControl(address: str, cid: str, auth_token: AuthToken, conditions: List[Condition], aggregator: Optional[str] = None, chain_type: ChainType = "evm", key_shards: List[KeyShard] = [], decryption_type: DecryptionType = "ADDRESS"):
+        try:
+            return accessControl.access_control(address, cid, auth_token, conditions, aggregator, chain_type, key_shards, decryption_type)
+        except Exception as e:
+            raise e
+
+
+    @staticmethod
+    def getAuthMessage(address: str) -> dict[str, Any]:
+        """
+        Get Authentication message from the server
+        :param address: str, The public key of the user
+        :return: dict, A dict with authentication message or error
+        """
+        try:
+            return getAuthMessage.get_auth_message(address)
+        except Exception as e:
+            raise e

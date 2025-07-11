@@ -7,7 +7,6 @@ SignedMessage = str
 JWT = str 
 AuthToken = Union[SignedMessage, JWT]
 
-# Enums
 class ChainType(str, Enum):
     EVM = "EVM"
     EVM_LOWER = "evm"

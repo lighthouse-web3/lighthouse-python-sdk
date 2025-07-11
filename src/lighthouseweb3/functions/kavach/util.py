@@ -1,9 +1,8 @@
 import re
 import json
 import asyncio
-import aiohttp
+import httpx
 from typing import Any, Optional, Union
-from urllib.parse import urljoin
 from src.lighthouseweb3.functions.config import Config
 
 def is_cid_reg(cid: str) -> bool:
@@ -43,61 +42,54 @@ async def api_node_handler(
         Exception: If request fails after all retries
     """
     verb = verb.upper()
-    
-    
-    base_url = Config.lighthouse_bls_node_dev if Config.is_dev else Config.lighthouse_auth_node
-    url = urljoin(base_url, endpoint)
-    
-        
+    url = Config.lighthouse_bls_node if not Config.is_dev else Config.lighthouse_bls_node_dev
+    url += endpoint
+
     headers = {
         "Content-Type": "application/json"
     }
     
     if auth_token:
         headers["Authorization"] = f"Bearer {auth_token}"
-    
- 
-    json_data = None
-    if verb in ["POST", "PUT", "DELETE"] and body is not None:
-        json_data = body
-    
- 
-    for i in range(retry_count):
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.request(
+
+    json_data = body if verb in ["POST", "PUT", "DELETE"] and body is not None else None
+
+    async with httpx.AsyncClient() as client:
+        for i in range(retry_count):
+            try:
+                response = await client.request(
                     method=verb,
                     url=url,
                     headers=headers,
                     json=json_data
-                ) as response:
-                    
-                    if not response.ok:
-                        if response.status == 404:
-                            raise Exception(json.dumps({
-                                "message": "fetch Error",
-                                "statusCode": response.status
-                            }))
-                        
-                        try:
-                            error_body = await response.json()
-                        except:
-                            error_body = {"message": "Unknown error"}
-                        
+                )
+                
+                if not response.is_success:
+                    if response.status_code == 404:
                         raise Exception(json.dumps({
-                            **error_body,
-                            "statusCode": response.status
+                            "message": "fetch Error",
+                            "statusCode": response.status_code
                         }))
                     
-                    return await response.json()
+                    try:
+                        error_body = response.json()
+                    except:
+                        error_body = {"message": "Unknown error"}
                     
-        except Exception as error:
-            error_str = str(error)
-            if "fetch" not in error_str:
-                raise error
-            
-            if i == retry_count - 1:  # Last attempt
-                raise error
+                    raise Exception(json.dumps({
+                        **error_body,
+                        "statusCode": response.status_code
+                    }))
                 
-            # Wait 1 second before retry
-            await asyncio.sleep(1)
+                return response.json()
+                    
+            except Exception as error:
+                error_str = str(error)
+                if "fetch" not in error_str:
+                    raise error
+                
+                if i == retry_count - 1:  # Last attempt
+                    raise error
+                    
+                # Wait 1 second before retry
+                await asyncio.sleep(1)
