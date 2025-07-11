@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Dict, List
+
+from .functions.encryption import revoke_access as revokeAccess
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,20 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def revokeAccess(address: str, cid: str, auth_token: str, revoke_to: List[str]) -> Dict:
+        """
+        Revokes access to a shared file for specified recipients.
+
+        :param address: str, The address of the user initiating the revocation.
+        :param cid: str, The CID of the file for which access is being revoked.
+        :param auth_token: str, The authentication token of the user.
+        :param revoke_to: List[str], A list of addresses for whom access is to be revoked.
+        :return: Dict, A dictionary indicating the success or failure of the revocation.
+        """
+        try:
+            return revokeAccess.revoke_access(address, cid, auth_token, revoke_to)
+        except Exception as e:
+            raise e
