@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Dict
+
+from .functions.encryption import generate as generateKey
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,19 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+class Kavach:
+    @staticmethod
+    def generate(threshold: int = 3, key_count: int = 5) -> Dict[str, any]:
+        """
+        Generates a set of master secret keys and corresponding key shards using BLS (Boneh-Lynn-Shacham)
+        threshold cryptography.
+
+        :param threshold: int, The minimum number of key shards required to reconstruct the master key.
+        :param key_count: int, The total number of key shards to generate.
+        :return: Dict[str, any], A dictionary containing the master key and a list of key shards.
+        """
+        
+        try:
+            return generateKey.generate(threshold, key_count)
+        except Exception as e:
+            raise e
