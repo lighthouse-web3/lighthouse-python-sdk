@@ -230,8 +230,21 @@ class Lighthouse:
             raise e
 
 class Kavach:
+    """
+    Kavach is a simple library for generating and managing secrets.
+
+    It uses Shamir's Secret Sharing algorithm to split a secret into multiple shares.
+    """
+
     @staticmethod
-    def generate(threshold: int, keyCount: int):
+    def generate(threshold: int, keyCount: int) -> List[Dict[str, Any]]:
+        """
+        Generates a set of key shards with a given threshold and key count.
+
+        :param threshold: int, The minimum number of shards required to recover the key.
+        :param keyCount: int, The number of shards to generate.
+        :return: List[Dict[str, Any]], A list of key shards.
+        """
         try:
             return generate.generate(threshold, keyCount)
         except Exception as e:
@@ -239,16 +252,29 @@ class Kavach:
     
 
     @staticmethod
-    def recoverKey(keyShards: List[Dict[str, Any]]):
+    def recoverKey(keyShards: List[Dict[str, Any]]) -> int:
+        """
+        Recovers a key from a set of key shards.
+
+        :param keyShards: List[Dict[str, Any]], A list of key shards.
+        :return: int, The recovered key.
+        """
         try:
             return recoverKey.recover_key(keyShards)
         except Exception as e:
             raise e
 
     @staticmethod
-    def shardKey(masterKey: int, threshold: int, keyCount: int):
+    def shardKey(masterKey: int, threshold: int, keyCount: int) -> List[Dict[str, Any]]:
+        """
+        Splits a master key into multiple shards.
+
+        :param masterKey: int, The master key to be split.
+        :param threshold: int, The minimum number of shards required to recover the key.
+        :param keyCount: int, The number of shards to generate.
+        :return: List[Dict[str, Any]], A list of key shards.
+        """
         try:
             return shardKey.shard_key(masterKey, threshold, keyCount)
         except Exception as e:
             raise e
-        
