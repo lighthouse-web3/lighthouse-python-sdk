@@ -17,6 +17,8 @@ from .functions import (
     create_wallet as createWallet
 )
 
+from .functions.kavach import get_auth_message as getAuthMessage
+
 
 class Lighthouse:
     def __init__(self, token: str = ""):
@@ -221,6 +223,21 @@ class Lighthouse:
         """
         try:
             return _download.getTaggedCid(tag, self.token)
+        except Exception as e:
+            raise e
+
+class Kavach:
+    
+    @staticmethod
+    def getAuthMessage(address: str):
+        """
+        Retrieves an authentication message for a given address.
+
+        :param address: str, The address for which to retrieve the authentication message.
+        :return: dict, A dictionary containing the authentication message.
+        """
+        try:
+            return getAuthMessage.get_auth_message(address)
         except Exception as e:
             raise e
 
