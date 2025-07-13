@@ -17,7 +17,13 @@ from .functions import (
     create_wallet as createWallet
 )
 
-from .functions.kavach import get_auth_message as getAuthMessage
+from .functions.kavach import(
+    get_auth_message as getAuthMessage,
+    save_shards as saveShards
+)
+
+from typing import List, Dict, Any, Union
+from .functions.kavach.types import AuthToken, KeyShard
 
 
 class Lighthouse:
@@ -241,3 +247,24 @@ class Kavach:
         except Exception as e:
             raise e
 
+    def saveShards(
+        address: str,
+        cid: str,
+        auth_token: AuthToken,
+        key_shards: List[KeyShard],
+        share_to: List[str] = []
+    ) -> Dict[str, Union[bool, str, None]]:
+        """
+        Save shards for a given address and CID.
+
+        :param address: str, The address for which to save the shards.
+        :param cid: str, The content identifier for the data.
+        :param auth_token: AuthToken, The authentication token.
+        :param key_shards: List[KeyShard], The list of key shards to save.
+        :param share_to: List[str], The list of addresses to share the shards with (optional).
+        :return: dict, A dictionary containing the result of the operation.
+        """
+        try:
+            return saveShards.save_shards(address, cid, auth_token, key_shards, share_to)
+        except Exception as e:
+            raise e
