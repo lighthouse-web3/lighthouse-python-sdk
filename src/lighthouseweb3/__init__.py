@@ -2,6 +2,7 @@
 
 import os
 import io
+from typing import List, Dict, Any
 from .functions import (
     upload as d,
     deal_status, 
@@ -16,7 +17,11 @@ from .functions import (
     remove_ipns_record as removeIpnsRecord,
     create_wallet as createWallet
 )
-
+from .functions.kavach import (
+    generate,
+    recover_key as recoverKey,
+    shard_key as shardKey
+)
 
 class Lighthouse:
     def __init__(self, token: str = ""):
@@ -224,3 +229,52 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+class Kavach:
+    """
+    Kavach is a simple library for generating and managing secrets.
+
+    It uses Shamir's Secret Sharing algorithm to split a secret into multiple shares.
+    """
+
+    @staticmethod
+    def generate(threshold: int, keyCount: int) -> List[Dict[str, Any]]:
+        """
+        Generates a set of key shards with a given threshold and key count.
+
+        :param threshold: int, The minimum number of shards required to recover the key.
+        :param keyCount: int, The number of shards to generate.
+        :return: List[Dict[str, Any]], A list of key shards.
+        """
+        try:
+            return generate.generate(threshold, keyCount)
+        except Exception as e:
+            raise e
+    
+
+    @staticmethod
+    def recoverKey(keyShards: List[Dict[str, Any]]) -> int:
+        """
+        Recovers a key from a set of key shards.
+
+        :param keyShards: List[Dict[str, Any]], A list of key shards.
+        :return: int, The recovered key.
+        """
+        try:
+            return recoverKey.recover_key(keyShards)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def shardKey(masterKey: int, threshold: int, keyCount: int) -> List[Dict[str, Any]]:
+        """
+        Splits a master key into multiple shards.
+
+        :param masterKey: int, The master key to be split.
+        :param threshold: int, The minimum number of shards required to recover the key.
+        :param keyCount: int, The number of shards to generate.
+        :return: List[Dict[str, Any]], A list of key shards.
+        """
+        try:
+            return shardKey.shard_key(masterKey, threshold, keyCount)
+        except Exception as e:
+            raise e
