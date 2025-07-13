@@ -228,8 +228,13 @@ class Lighthouse:
 
     @staticmethod
     def getAccessCondition(cid: str):
+        """
+        Retrieves the access condition for a given content identifier (CID).
+
+        :param cid: str, Content Identifier for the data to be retrieved
+        :return: dict, A dictionary containing the access condition
+        """
         try:
             return getAccessCondition.get_access_condition(cid)
         except Exception as e:
             raise e
-
