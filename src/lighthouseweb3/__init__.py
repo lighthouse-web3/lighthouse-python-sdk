@@ -14,8 +14,10 @@ from .functions import (
     ipns_publish_record as ipnsPublishRecord,
     get_ipns_record as getIpnsRecord,
     remove_ipns_record as removeIpnsRecord,
-    create_wallet as createWallet
+    create_wallet as createWallet,
+    get_access_condition as getAccessCondition
 )
+
 
 
 class Lighthouse:
@@ -221,6 +223,13 @@ class Lighthouse:
         """
         try:
             return _download.getTaggedCid(tag, self.token)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def getAccessCondition(cid: str):
+        try:
+            return getAccessCondition.get_access_condition(cid)
         except Exception as e:
             raise e
 
