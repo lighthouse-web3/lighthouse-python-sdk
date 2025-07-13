@@ -234,8 +234,19 @@ class Lighthouse:
             raise e
 
 class Kavach:
+    """
+    Kavach is a threshold secret sharing library using shamir secret sharing.
+    """
+
     @staticmethod
-    def generate(threshold: int, keyCount: int):
+    def generate(threshold: int, keyCount: int) -> Dict[str, Any]:
+        """
+        Generate a master key and sharded the key into key shards
+
+        :param threshold: int, number of shards required to recover the key
+        :param keyCount: int, number of key shards to generate
+        :return: dict, A dict with master key and key shards
+        """
         try:
             return generate.generate(threshold, keyCount)
         except Exception as e:
@@ -243,14 +254,28 @@ class Kavach:
     
 
     @staticmethod
-    def recoverKey(keyShards: List[Dict[str, Any]]):
+    def recoverKey(keyShards: List[Dict[str, Any]]) -> int:
+        """
+        Recover the master key from the given key shards
+
+        :param keyShards: List[Dict[str, Any]], A list of key shards
+        :return: int, The recovered master key
+        """
         try:
             return recoverKey.recover_key(keyShards)
         except Exception as e:
             raise e
 
     @staticmethod
-    def shardKey(masterKey: int, threshold: int, keyCount: int):
+    def shardKey(masterKey: int, threshold: int, keyCount: int) -> Dict[str, Any]:
+        """
+        Shard the given master key into key shards
+
+        :param masterKey: int, The master key to be sharded
+        :param threshold: int, number of shards required to recover the key
+        :param keyCount: int, number of key shards to generate
+        :return: dict, A dict with key shards
+        """
         try:
             return shardKey.shard_key(masterKey, threshold, keyCount)
         except Exception as e:
@@ -258,6 +283,19 @@ class Kavach:
             
     @staticmethod
     def accessControl(address: str, cid: str, auth_token: AuthToken, conditions: List[Condition], aggregator: Optional[str] = None, chain_type: ChainType = "evm", key_shards: List[KeyShard] = [], decryption_type: DecryptionType = "ADDRESS"):
+        """
+        Create a new Kavach Access Control Record
+
+        :param address: str, The public key of the user
+        :param cid: str, The cid of the data
+        :param auth_token: AuthToken, The authorization token
+        :param conditions: List[Condition], The conditions for access control
+        :param aggregator: str, The aggregator address
+        :param chain_type: ChainType, The type of chain
+        :param key_shards: List[KeyShard], The key shards for access control
+        :param decryption_type: DecryptionType, The decryption type
+        :return: dict, A dict with the access control record
+        """
         try:
             return accessControl.access_control(address, cid, auth_token, conditions, aggregator, chain_type, key_shards, decryption_type)
         except Exception as e:
