@@ -5,6 +5,7 @@ from unittest.mock import patch
 class TestGenerateKey(unittest.TestCase):
   def test_generate_key_success(self):
     result = Kavach.generate()
+    print(result)
     self.assertIsInstance(result["masterKey"], str, "masterKey should be a string")
     self.assertEqual(len(result["keyShards"]), 5, "keyShards should have length 5")
 

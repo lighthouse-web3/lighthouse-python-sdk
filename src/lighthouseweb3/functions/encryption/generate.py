@@ -22,11 +22,18 @@ def generate(threshold: int = 3, key_count: int = 5) -> Dict[str, any]:
     master_sk = poly[0]  # constant term is master key
 
     shares = []
-    for i in range(1, key_count + 1):
-        x = i
+    # Generate random vector IDs, ensuring uniqueness
+    id_vec = set()
+    while len(id_vec) < key_count:
+        id_vec.add(random.randint(1, curve_order - 1))
+    id_vec = list(id_vec)
+
+    for x in id_vec:
         y = eval_poly(poly, x)
+        # Convert index to hex string without '0x' prefix to match JS output
+        index_hex = hex(x)[2:].zfill(64)  # Ensure 64-character hex string
         shares.append({
-            "index": x,
+            "index": index_hex,
             "key": int_to_bytes(y).hex()
         })
 
