@@ -18,7 +18,7 @@ class TestKavachGetJWT(unittest.TestCase):
 
       auth_token = Web3().eth.account.sign_message(
         encode_defunct(text=verification_message), 
-        private_key='0x8218aa5dbf4dbec243142286b93e26af521b3e91219583595a06a7765abc9c8b'
+        private_key=os.environ.get('PRIVATE_KEY')
       ).signature.hex()
 
       jwt = Kavach.getJWT(
