@@ -38,7 +38,7 @@ class PODSIData(TypedDict):
     pieceCID: str
     dealInfo: List[DealInfo]
 
-def get_lighthouse_proof(cid: str) -> PODSIData:
+def get_proof(cid: str) -> PODSIData:
     try:
         response = requests.get(f"{Config.lighthouse_api}/api/lighthouse/get_proof?cid={cid}")
         
