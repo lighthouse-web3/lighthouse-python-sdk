@@ -2,6 +2,7 @@
 
 import os
 import io
+from typing import Optional, Dict, Any
 from .functions import (
     upload as d,
     deal_status, 
@@ -17,7 +18,9 @@ from .functions import (
     create_wallet as createWallet
 )
 
-from .functions.kavach import get_auth_message as getAuthMessage
+from .functions.kavach.get_auth_message import get_auth_message as getAuthMessage
+from .functions.kavach.recover_shards import recover_shards as recoverShards
+from .functions.kavach.types import AuthToken
 
 
 class Lighthouse:
@@ -241,3 +244,9 @@ class Kavach:
         except Exception as e:
             raise e
 
+    @staticmethod
+    def recoverShards(address: str, cid: str, auth_token: AuthToken, num_of_shards: int = 3, dynamic_data: Optional[Dict[str, Any]] = None):
+        try:
+            return recoverShards.recover_shards(address, cid, auth_token, num_of_shards, dynamic_data)
+        except Exception as e:
+            raise e
