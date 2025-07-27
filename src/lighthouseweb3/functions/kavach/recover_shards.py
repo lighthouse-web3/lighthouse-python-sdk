@@ -1,8 +1,8 @@
 import random
 import asyncio
-from typing import List, Dict, Any, Optional, Union, cast
-
-from .types import AuthToken, RecoverShards, KeyShard
+import json
+from typing import List, Dict, Any, Optional
+from .types import AuthToken, RecoverShards
 
 
 def shuffle_array(array: List[int]) -> List[int]:
@@ -64,16 +64,15 @@ async def recover_shards(
         dynamic_data = {}
         
     try:
-        from ..config import API_NODE_HANDLER 
+        from .util import api_node_handler 
         
-        # Select random nodes to recover shards from
         node_indices = rand_select(num_of_shards, 5)
         node_urls = [f"/api/retrieveSharedKey/{index}" for index in node_indices]
         
         async def request_data(url: str, index: int) -> Dict[str, Any]:
             """Helper function to make API requests to node URLs."""
             try:
-                response = await API_NODE_HANDLER(
+                response = await api_node_handler(
                     url, 
                     "POST", 
                     auth_token, 
@@ -81,40 +80,28 @@ async def recover_shards(
                 )
                 return response
             except Exception as e:
-                error_msg = str(getattr(e, 'message', 'Unknown error'))
-                raise Exception(error_msg) from e
+                raise e
         
-        # Request shards from each selected node
-        recovered_shards: List[KeyShard] = []
+        recovered_shards = []
         
         for index, url in enumerate(node_urls):
-            try:
-                response = await request_data(url, index)
-                await asyncio.sleep(1)  # Add delay between requests
-                
-                # Convert response to KeyShard if needed
-                if response and 'payload' in response:
-                    payload = response['payload']
-                    if isinstance(payload, dict) and 'key' in payload and 'index' in payload:
-                        shard = KeyShard(key=payload['key'], index=str(payload['index']))
-                        recovered_shards.append(shard)
-                    else:
-                        # Handle case where payload is just the key
-                        shard = KeyShard(key=str(payload), index=str(index))
-                        recovered_shards.append(shard)
-                        
-            except Exception as e:
-                # Continue with other shards if one fails
-                print(f"Error recovering shard from {url}: {str(e)}")
-                continue
+            response = await request_data(url, index)
+            await asyncio.sleep(1) 
+            recovered_shards.append(response.get('payload'))
         
-        if not recovered_shards:
-            return RecoverShards(shards=[], error="Failed to recover any shards")
-            
-        return RecoverShards(shards=recovered_shards, error="")
+        return RecoverShards(shards=recovered_shards, error=None)
         
     except Exception as err:
         error_msg = str(err)
-        if "null" in error_msg or "not found" in error_msg.lower():
-            return RecoverShards(shards=[], error="CID not found")
-        return RecoverShards(shards=[], error=error_msg)
+        
+        if "null" in error_msg:
+            return RecoverShards(shards=[], error="cid not found")
+        
+        # Try to parse the error message as JSON, exactly like TypeScript
+        try:
+            error_data = json.loads(error_msg)
+            return RecoverShards(shards=[], error=error_data)
+        except (json.JSONDecodeError, TypeError):
+            # If JSON parsing fails, return the original error message as string
+            # This matches TypeScript behavior when JSON.parse fails
+            return RecoverShards(shards=[], error=error_msg)

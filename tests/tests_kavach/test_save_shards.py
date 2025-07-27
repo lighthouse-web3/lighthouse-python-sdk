@@ -18,7 +18,6 @@ class TestSaveShards(unittest.IsolatedAsyncioTestCase):
        self.private_key = os.environ.get("PRIVATE_KEY")
        self.signer_address = Web3().eth.account.from_key(self.private_key).address
 
-
       
    async def test_invalid_signature(self):
        """Test saveShards with invalid signature."""

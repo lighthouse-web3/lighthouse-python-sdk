@@ -255,6 +255,7 @@ class Kavach:
             return recoverShards.recover_shards(address, cid, auth_token, num_of_shards, dynamic_data)
         except Exception as e:
             raise e
+    @staticmethod
     def saveShards(
         address: str,
         cid: str,
