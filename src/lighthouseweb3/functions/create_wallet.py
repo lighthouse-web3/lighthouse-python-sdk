@@ -6,7 +6,7 @@ from eth_account import Account
 def create_wallet(password: str):
   wallet = Account.create()
 
-  url = f"{Config.lighthouse_api}/api/auth/get_auth_message?publicKey={wallet.address}"
+  url = f"{Config.lighthouse_bls_node}/api/auth/get_auth_message?publicKey={wallet.address}"
 
   try:
     response = req.get(url)
