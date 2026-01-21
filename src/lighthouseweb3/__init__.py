@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Any, Dict, List
+
+from .functions.encryption import share_to_address as shareToAddress
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,20 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def shareToAddress(address: str, cid: str, auth_token: Dict[str, Any], share_to: List[str]) -> Dict[str, Any]:
+        """
+        Share an encrypted file with a list of addresses.
+
+        :param address: str, The public address of the file owner.
+        :param cid: str, The CID of the file to share.
+        :param auth_token: Dict[str, Any], The authentication token.
+        :param share_to: List[str], A list of public addresses to share the file with.
+        :return: Dict[str, Any], A dictionary indicating the result of the share operation.
+        """
+        try:
+            return shareToAddress.share_to_address(address, cid, auth_token, share_to)
+        except Exception as e:
+            raise e
