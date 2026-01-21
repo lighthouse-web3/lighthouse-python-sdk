@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Dict, List
+
+from .functions.encryption import recover_key as recoveryKey
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,17 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def recoverKey(shards: List[Dict[str, str]]) -> Dict[str, str]:
+        """
+        Recovers the master key from a list of key shards using Lagrange interpolation.
+        
+        :param shards: List of dictionaries containing 'key' and 'index' as hex strings
+        :return: Dictionary containing the recovered master key
+        """
+        try:
+            return recoveryKey.recover_key(shards)
+        except Exception as e:
+            raise e
