@@ -2,7 +2,6 @@
 
 import os
 
-
 def parse_env():
     """parse .env file"""
     try:

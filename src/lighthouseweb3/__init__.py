@@ -2,6 +2,7 @@
 
 import os
 import io
+from typing import Optional, Dict, Any
 from .functions import (
     upload as d,
     deal_status, 
@@ -16,6 +17,15 @@ from .functions import (
     remove_ipns_record as removeIpnsRecord,
     create_wallet as createWallet
 )
+
+from .functions.kavach import(
+    get_auth_message as getAuthMessage,
+    save_shards as saveShards,
+    recover_shards as recoverShards
+)
+
+from typing import List, Dict, Any, Union
+from .functions.kavach.types import AuthToken, KeyShard
 
 
 class Lighthouse:
@@ -224,3 +234,46 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+class Kavach:
+    
+    @staticmethod
+    def getAuthMessage(address: str):
+        """
+        Retrieves an authentication message for a given address.
+
+        :param address: str, The address for which to retrieve the authentication message.
+        :return: dict, A dictionary containing the authentication message.
+        """
+        try:
+            return getAuthMessage.get_auth_message(address)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def recoverShards(address: str, cid: str, auth_token: AuthToken, num_of_shards: int = 3, dynamic_data: Optional[Dict[str, Any]] = None):
+        try:
+            return recoverShards.recover_shards(address, cid, auth_token, num_of_shards, dynamic_data)
+        except Exception as e:
+            raise e
+    @staticmethod
+    def saveShards(
+        address: str,
+        cid: str,
+        auth_token: AuthToken,
+        key_shards: List[KeyShard],
+        share_to: List[str] = []
+    ) -> Dict[str, Union[bool, str, None]]:
+        """
+        Save shards for a given address and CID.
+
+        :param address: str, The address for which to save the shards.
+        :param cid: str, The content identifier for the data.
+        :param auth_token: AuthToken, The authentication token.
+        :param key_shards: List[KeyShard], The list of key shards to save.
+        :param share_to: List[str], The list of addresses to share the shards with (optional).
+        :return: dict, A dictionary containing the result of the operation.
+        """
+        try:
+            return saveShards.save_shards(address, cid, auth_token, key_shards, share_to)
+        except Exception as e:
+            raise e
