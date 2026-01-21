@@ -2,6 +2,9 @@
 
 import os
 import io
+from typing import Any, Dict
+
+from .functions.encryption import shared_key as sharedKey
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +227,22 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+class Kavach:
+    @staticmethod
+    def sharedKey(key: str, threshold: int = 3, key_count: int = 5) -> Dict[str, Any]:
+        """
+        Splits a secret key into shards using Shamir's Secret Sharing on BLS12-381 curve.
+        
+        :param key: Hex string of the master secret key
+        :param threshold: Minimum number of shards required to reconstruct the key
+        :param key_count: Total number of shards to generate
+        
+        :return: Dict containing isShardable flag and list of key shards with their indices
+        """
+
+        try:
+            return sharedKey.shard_key(key, threshold, key_count)
+        except Exception as e:
+            raise e
+        
