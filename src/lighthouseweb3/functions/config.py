@@ -9,3 +9,4 @@ class Config:
     lighthouse_node = "https://upload.lighthouse.storage"
     lighthouse_bls_node = "https://encryption.lighthouse.storage"
     lighthouse_gateway = "https://gateway.lighthouse.storage/ipfs"
+    

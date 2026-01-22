@@ -14,7 +14,8 @@ from .functions import (
     ipns_publish_record as ipnsPublishRecord,
     get_ipns_record as getIpnsRecord,
     remove_ipns_record as removeIpnsRecord,
-    create_wallet as createWallet
+    create_wallet as createWallet,
+    podsi as podsi
 )
 
 
@@ -221,6 +222,18 @@ class Lighthouse:
         """
         try:
             return _download.getTaggedCid(tag, self.token)
+        except Exception as e:
+            raise e
+
+    def getProof(self, cid: str):
+        """
+        Get proof from the Lighthouse.
+
+        :param cid: str, content identifier
+        :return: List[t.DealData], list of deal data
+        """
+        try:
+            return podsi.get_proof(cid)
         except Exception as e:
             raise e
 
