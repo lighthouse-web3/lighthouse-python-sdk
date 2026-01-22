@@ -2,6 +2,10 @@
 
 import os
 import io
+from typing import Any
+
+from .functions.encryption import get_auth_message as getAuthMessage
+
 from .functions import (
     upload as d,
     deal_status, 
@@ -224,3 +228,19 @@ class Lighthouse:
         except Exception as e:
             raise e
 
+
+
+class Kavach:
+    @staticmethod
+    def getAuthMessage(address: str) -> dict[str, Any]:
+        """
+        Get Authentication message from the server
+
+        :param address: str, The public key of the user
+        :return: dict, A dict with authentication message or error
+
+        """
+        try:
+            return getAuthMessage.get_auth_message(address)
+        except Exception as e:
+            raise e
