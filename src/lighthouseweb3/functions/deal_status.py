@@ -1,5 +1,6 @@
 import requests
 from .config import Config
+from .exceptions import LighthouseAPIError
 
 
 def get_deal_status(cid: str):
@@ -9,4 +10,4 @@ def get_deal_status(cid: str):
         response.raise_for_status()
         return response.json()
     except requests.HTTPError as error:
-        raise Exception(error.response.text)
+        raise LighthouseAPIError(error.response.text)

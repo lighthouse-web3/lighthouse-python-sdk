@@ -4,6 +4,7 @@ from io import BufferedReader
 import json
 import requests as req
 from . import utils
+from .exceptions import LighthouseAPIError
 
 
 class Axios:
@@ -17,8 +18,8 @@ class Axios:
             if query is not None and isinstance(query, dict):
                 for key, value in query.items():
                     self.url += f"&{key}={value}"
-        except Exception as e:
-            raise e
+        except (LighthouseAPIError, req.exceptions.HTTPError):
+            raise
 
     def get(self, headers = None, **kwargs) :
         try:
@@ -26,8 +27,8 @@ class Axios:
             r = req.get(self.url, headers=headers)
             r.raise_for_status()
             return r.json()
-        except Exception as e:
-            raise e
+        except req.exceptions.HTTPError as e:
+            raise LighthouseAPIError(str(e)) from e
 
     def post(
         self, body=None, headers= None, **kwargs
@@ -37,8 +38,8 @@ class Axios:
             r = req.post(self.url, data=body, headers=headers)
             r.raise_for_status()
             return r.json()
-        except Exception as e:
-            raise e
+        except req.exceptions.HTTPError as e:
+            raise LighthouseAPIError(str(e)) from e
 
     def post_files(
         self, file, headers = None, **kwargs
@@ -54,9 +55,9 @@ class Axios:
             except Exception:
                 temp = r.text.split("\n")
                 return json.loads(temp[len(temp) - 2])
-        except Exception as e:
+        except req.exceptions.HTTPError as e:
             utils.close_files_after_upload(files)
-            raise e
+            raise LighthouseAPIError(str(e)) from e
 
     def post_blob(
         self, file: BufferedReader, filename: str, headers = None, **kwargs
@@ -79,6 +80,6 @@ class Axios:
             except Exception:
                 temp = r.text.split("\n")
                 return json.loads(temp[len(temp) - 2])
-        except Exception as e:
+        except req.exceptions.HTTPError as e:
             file.close()
-            raise e
+            raise LighthouseAPIError(str(e)) from e

@@ -5,6 +5,7 @@ from typing import Dict, List, Tuple
 from .axios import Axios
 from .utils import is_dir, walk_dir_tree, extract_file_name, NamedBufferedReader
 from .config import Config
+from .exceptions import LighthouseUploadError
 
 
 def upload(source, token: str, tag: str = ""):
@@ -52,8 +53,7 @@ def upload(source, token: str, tag: str = ""):
                 "Authorization": f"Bearer {token}", })
         return {"data": hashData}
     except Exception as e:
-        print(e)
-        raise e
+        raise LighthouseUploadError(str(e)) from e
 
 
 def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""):
@@ -84,5 +84,4 @@ def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""
                 "Authorization": f"Bearer {token}", })
         return {"data": hashData}
     except Exception as e:
-        print(e)
-        raise e
+        raise LighthouseUploadError(str(e)) from e
