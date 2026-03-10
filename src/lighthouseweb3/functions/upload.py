@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 from .axios import Axios
 from .utils import is_dir, walk_dir_tree, extract_file_name, NamedBufferedReader
 from .config import Config
-from .exceptions import LighthouseUploadError
+from .exceptions import LighthouseError, LighthouseUploadError
 
 
 def upload(source, token: str, tag: str = ""):
@@ -26,7 +26,7 @@ def upload(source, token: str, tag: str = ""):
         axios = Axios(Config.lighthouse_node + "/api/v0/add")
         # create list of files to upload
 
-        if (isinstance(source, str)):
+        if isinstance(source, str):
             file_dict = {}
 
             # check if source is a directory
@@ -46,17 +46,20 @@ def upload(source, token: str, tag: str = ""):
 
         if len(tag):
             _axios = Axios(Config.lighthouse_api + "/api/user/create_tag")
-            data = _axios.post({
-                "tag": tag,
-                "cid": hashData.get("Hash")
-            }, {
-                "Authorization": f"Bearer {token}", })
+            data = _axios.post(
+                {"tag": tag, "cid": hashData.get("Hash")},
+                {
+                    "Authorization": f"Bearer {token}",
+                },
+            )
         return {"data": hashData}
+    except LighthouseError:
+        raise
     except Exception as e:
         raise LighthouseUploadError(str(e)) from e
 
 
-def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""):
+def uploadBlob(source: BufferedReader, filename: str, token: str, tag: str = ""):
     """
     Upload a Buffer or readable Object
     @params {source}: str, path to file or directory
@@ -77,11 +80,14 @@ def uploadBlob(source:  BufferedReader, filename: str, token: str, tag: str = ""
         hashData = axios.post_blob(source, filename, headers)
         if len(tag):
             _axios = Axios(Config.lighthouse_api + "/api/user/create_tag")
-            data = _axios.post({
-                "tag": tag,
-                "cid": hashData.get("Hash")
-            }, {
-                "Authorization": f"Bearer {token}", })
+            data = _axios.post(
+                {"tag": tag, "cid": hashData.get("Hash")},
+                {
+                    "Authorization": f"Bearer {token}",
+                },
+            )
         return {"data": hashData}
+    except LighthouseError:
+        raise
     except Exception as e:
         raise LighthouseUploadError(str(e)) from e
